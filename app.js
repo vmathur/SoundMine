@@ -24,6 +24,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
+app.post('/sensor',function(req,res){
+    console.log('hi');
+});
+
+
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -31,9 +36,7 @@ app.use(function(req, res, next) {
     next(err);
 });
 
-// app.post('/sensor',function(req,res){
-//     console.log(req);
-// });
+
 /// error handlers
 
 // development error handler
