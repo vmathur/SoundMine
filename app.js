@@ -25,7 +25,12 @@ app.use('/', routes);
 app.use('/users', users);
 
 app.post('/sensor',function(req,res){
-    console.log('hi');
+    data = req.body;
+    mood = data.mood;
+    timeStamp = data.time;
+    user = data.user;
+
+    console.log(user+' is '+mood+' at '+timeStamp);
 });
 
 

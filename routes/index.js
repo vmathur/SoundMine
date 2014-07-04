@@ -9,5 +9,5 @@ router.get('/', function(req, res) {
 module.exports = router;
 
 exports.sensor = function(req,res){
-	console.log('hi');
+	console.log(req.body);
 };
