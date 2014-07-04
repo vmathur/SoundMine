@@ -10,6 +10,8 @@ var users = require('./routes/users');
 
 var app = express();
 
+var previousMoodMap = {};
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -56,12 +58,19 @@ app.post('/sensor',function(req,res){
     }else{
         suggestSong(user,mood);
     }
-
+    setPreviousMood(user,mood)
 });
 
 function getPreviousMood(user){
     //some hashmap of user to previous mood
     //return null if there is nothing
+    var mood = previousMoodMap[user]
+    return mood;
+}
+
+function setPreviousMood(user,mood){
+    //set a user's previous mood
+    previousMoodMap[user]=mood;
 }
 
 function getRecentSong(timeStamp){
@@ -90,7 +99,6 @@ function storeSongMood(user,mood,song){
 
 
 
-s
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
