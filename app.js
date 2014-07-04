@@ -30,6 +30,21 @@ app.post('/sensor',function(req,res){
     timeStamp = data.time;
     user = data.user;
 
+    //query recetly played song db
+    //check if mood timestamp is between song time interval, or after song start
+
+    //if true
+        //if the previous mood is the same, then do B
+        //if the previous mood is is different or non existant, then do A
+    //if false
+        //Do A
+
+    //update previous mood
+
+    //DBS NEEDED
+    //db of recently played songs with time intervals
+    //db of songs and moods
+
     console.log(user+' is '+mood+' at '+timeStamp);
 });
 
