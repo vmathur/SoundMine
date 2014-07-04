@@ -30,7 +30,11 @@ app.post('/sensor',function(req,res){
     timeStamp = data.time;
     user = data.user;
 
-    //query recetly played song db
+    console.log(user+' is '+mood+' at '+timeStamp);
+
+
+    //query recently played song db
+    //query for user previous mood
     //check if mood timestamp is between song time interval, or after song start
 
     //if true
@@ -40,15 +44,53 @@ app.post('/sensor',function(req,res){
         //Do A
 
     //update previous mood
+    currentSong = getRecentSong(timeStamp);
+    previousMood = getPreviousMood(user);
 
-    //DBS NEEDED
-    //db of recently played songs with time intervals
-    //db of songs and moods
+    if(currentSong){
+        if(mood===previousMood){
+            storeSongMood(user,mood,currentSong);
+        }else{
+            suggestSong(user,mood);
+        }
+    }else{
+        suggestSong(user,mood);
+    }
 
-    console.log(user+' is '+mood+' at '+timeStamp);
 });
 
+function getPreviousMood(user){
+    //some hashmap of user to previous mood
+    //return null if there is nothing
+}
 
+function getRecentSong(timeStamp){
+    //return the song id for a song that started playing 
+    //before the time stamp and ended after the time stamp(if no end time, then just base off of start time)
+
+    //if there is none, return null
+}
+
+//A) suggest song to user
+function suggestSong(user,mood){
+    //querydb for songs that match the mood
+    //send to client
+    //client should call play song by id
+}
+
+//B) match mood to song
+function storeSongMood(user,mood,song){
+    //-store song mood combo in db
+}
+
+//DBs needed
+//db for recent user mood
+//db of recently played songs with time intervals
+//db of songs and moods
+
+
+
+s
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -58,7 +100,6 @@ app.use(function(req, res, next) {
 
 
 /// error handlers
-
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
