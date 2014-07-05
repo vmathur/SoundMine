@@ -12,9 +12,11 @@ var app = express();
 
 var previousMoodMap = {};
 
-var musicDB = new Firebase("https://shining-fire-9992.firebaseio.com/");
+var Firebase = require('firebase');
+var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
+var usersRef = appRef.child("user_list");
 
-// view engine setup
+view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -48,7 +50,7 @@ app.post('/sensor',function(req,res){
         //Do A
 
     //update previous mood
-    currentSong = getRecentSong(timeStamp);
+    currentSong = getCurrentSong(user);
     previousMood = getPreviousMood(user);
 
     if(currentSong){
@@ -66,20 +68,41 @@ app.post('/sensor',function(req,res){
 function getPreviousMood(user){
     //some hashmap of user to previous mood
     //return null if there is nothing
-    var mood = previousMoodMap[user]
+    //var mood = previousMoodMap[user]
+    user = 10154295291765322;
+    var listenerRef = usersRef.child(user);
+    listenerRef.on('value', function(snapshot){
+        snapshot = snapshopt.val();
+        var mood = snapshot.currentMood;
+    });
+
     return mood;
 }
 
 function setPreviousMood(user,mood){
     //set a user's previous mood
-    previousMoodMap[user]=mood;
+    //previousMoodMap[user]=mood;
+    user = 10154295291765322;
+    var listenerRef = usersRef.child(user);
+    listenerRef.child("currentMood").set("active");
+
 }
 
-function getRecentSong(timeStamp){
+function getRecentSong(timeStamp, user){
+
     //return the song id for a song that started playing 
     //before the time stamp and ended after the time stamp(if no end time, then just base off of start time)
 
     //if there is none, return null
+}
+
+function getCurrentSong(user){ 
+    user = 10154295291765322;
+    var listenerRef = usersRef.child(user);
+    listenerRef.on('value', function(snapshot){
+        snapshot = snapshopt.val();
+        currentlyPlaying = snapshot.currentlyListening;
+    });
 }
 
 //A) suggest song to user
