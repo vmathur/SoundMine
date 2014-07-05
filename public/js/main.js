@@ -36,38 +36,35 @@ function manageConnection(user) {
 }
 
 
-$('.song').click(function(e){
+$('#play').click(function(e){
 	e.preventDefault();
-	id = e.target.id;
 	timestamp = e.timestamp;
+	id = $(this).attr('data-title');
+	artist = $(this).attr('data-artist');
 
 	//playing song using the id
-	playSongById(id);
+	playSongById(id, artist);
 
 	//saving the song id and the timestamp to the database
 	saveToRef(timestamp, id);
 
-	// replacing the play button with a 
-	$(this).replaceWith('<a class="button gradient" id="pause" href="" title="">Pause</a>');
+	$(this).attr('id', 'pause');
+
+	$('#pause').click(function(evt) {
+		song.pause();
+		usersRef.child(_user.id).child('currentlyListening').set(null);
+
+		$(this).attr('id', 'play');
+	})
 });
 
-// ('#pause').click(function(e) {
-// 	e.preventDefault();
-// 	id = e.target.id;
-// 	timestamp = e.timestamp;
-
-// 	pauseSong();
-// 	$(this).replaceWith('<a class="button gradient" id="pause" href="" title="">Pause</a>');
-// });
-
-function playSongById(songId){
+function playSongById(songId, artist){
 	song.play();
-	usersRef.child(_user.id).child('currentlyListening').set(songId);
+	usersRef.child(_user.id).child('currentlyListening').set(songId + ' - ' + artist);
 }
 
 function pauseSong() {
-	song.pause();
-	usersRef.child(_user.id).child('currentlyListening').set(null);
+
 }
 
 function saveToRef(timestamp, songId) {

@@ -14,9 +14,11 @@ var previousMoodMap = {};
 
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
-var usersRef = appRef.child("user_list");
+var usersRef = appRef.child("user_list"),
+user = 10154295291765322,
+myRef = usersRef.child(user);
 
-view engine setup
+// view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -49,43 +51,37 @@ app.post('/sensor',function(req,res){
     //if false
         //Do A
 
-    //update previous mood
-    currentSong = getCurrentSong(user);
-    previousMood = getPreviousMood(user);
 
-    if(currentSong){
-        if(mood===previousMood){
-            storeSongMood(user,mood,currentSong);
-        }else{
-            suggestSong(user,mood);
-        }
-    }else{
-        suggestSong(user,mood);
-    }
+    // if(currentSong){
+    //     if(mood===previousMood){
+    //         storeSongMood(user,mood,currentSong);
+    //     }else{
+    //         suggestSong(user,mood);
+    //     }
+    // }else{
+    //     suggestSong(user,mood);
+    // }
     setPreviousMood(user,mood)
+});
+
+myRef.on('value', function(snapshot){
+    snapshot = snapshot.val();
+    var mood = snapshot.currentMood;
+    previousMood = mood;
+    currentSong = snapshot.currentlyListening;
+    // setPreviousMood(mood);
 });
 
 function getPreviousMood(user){
     //some hashmap of user to previous mood
     //return null if there is nothing
     //var mood = previousMoodMap[user]
-    user = 10154295291765322;
-    var listenerRef = usersRef.child(user);
-    listenerRef.on('value', function(snapshot){
-        snapshot = snapshopt.val();
-        var mood = snapshot.currentMood;
-    });
 
     return mood;
 }
 
 function setPreviousMood(user,mood){
-    //set a user's previous mood
-    //previousMoodMap[user]=mood;
-    user = 10154295291765322;
-    var listenerRef = usersRef.child(user);
-    listenerRef.child("currentMood").set("active");
-
+    myRef.child('currentMood').set('active');
 }
 
 function getRecentSong(timeStamp, user){
@@ -97,12 +93,7 @@ function getRecentSong(timeStamp, user){
 }
 
 function getCurrentSong(user){ 
-    user = 10154295291765322;
-    var listenerRef = usersRef.child(user);
-    listenerRef.on('value', function(snapshot){
-        snapshot = snapshopt.val();
-        currentlyPlaying = snapshot.currentlyListening;
-    });
+
 }
 
 //A) suggest song to user
@@ -155,5 +146,13 @@ app.use(function(err, req, res, next) {
     });
 });
 
+var http = require('http');
+
+http.createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end('Hello World\n');
+}).listen(1337, '127.0.0.1');
+
+console.log('Server running at http://127.0.0.1:1337/');
 
 module.exports = app;
