@@ -12,6 +12,8 @@ var app = express();
 
 var previousMoodMap = {};
 
+var musicDB = new Firebase("https://shining-fire-9992.firebaseio.com/");
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
