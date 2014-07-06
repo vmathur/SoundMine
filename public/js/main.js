@@ -35,8 +35,9 @@ function manageConnection(user) {
 	});
 }
 
-$('.play').on('mouseup', function(e){
+$('.play').on('click', function(e){
 	e.preventDefault();
+	var _this = this;
 	timestamp = e.timestamp;
 	songName = $(this).attr('title');
 	id = $(this).attr('data-title');
@@ -44,8 +45,10 @@ $('.play').on('mouseup', function(e){
 
 	//playing song using the id
 	song = new Audio('../music/' + songName + '.mp3');
-	playSong(song, id, artist);
-	//saving the song id and the timestamp to the database
+	song.play();
+	// setting the current song in firebase
+	usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+
 	saveToRef(timestamp, id);
 
 	$(this).removeClass('play');
@@ -53,8 +56,9 @@ $('.play').on('mouseup', function(e){
 	$(this).addClass('playing');
 
 
-	$('.pause').on('mouseup', function(evt) {
-		pauseSong(song);
+	$('.pause').on('click', function(evt) {
+		song.pause();
+		usersRef.child(_user.id).child('currentlyListening').set(null);
 
 		$(this).addClass('play');
 		$(this).removeClass('pause');
@@ -62,7 +66,7 @@ $('.play').on('mouseup', function(e){
 	})
 });
 
-$('.fwd').on('mouseup')(function (e) {
+$('.fwd').on('mouseup', function (e) {
     e.preventDefault();
     pauseSong(song);
 
@@ -81,7 +85,7 @@ $('.fwd').on('mouseup')(function (e) {
 });
 
 
-$('.back').on('mouseup')(function (e) {
+$('.back').on('mouseup', function (e) {
     e.preventDefault();
     pauseSong(song);
 
@@ -105,10 +109,12 @@ function playSong(song, songName, artist){
 	usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
 }
 
-function pauseSong(song) {
+function pauseSong(song, songName, artist) {
 	song.pause();
+	// removing the current song in firebase
 	usersRef.child(_user.id).child('currentlyListening').set(null);
 }
+
 
 function saveToRef(timestamp, songId) {
 	// adding song to the right playlist based on user's current mood
