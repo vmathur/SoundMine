@@ -3,7 +3,8 @@ var container = $('.container'),
 	play = $('#play'),
 	pause = $('#pause'),
 	_user,
-	_currentMood;
+	_currentMood,
+	song;
 
 //firebase references
 var appRef = new Firebase('https://shining-fire-9992.firebaseio.com/'),
@@ -44,19 +45,58 @@ $('.play').on('mouseup', function(e){
 	//playing song using the id
 	song = new Audio('../music/' + songName + '.mp3');
 	playSong(song, id, artist);
-
 	//saving the song id and the timestamp to the database
 	saveToRef(timestamp, id);
 
 	$(this).removeClass('play');
 	$(this).addClass('pause');
+	$(this).addClass('playing');
+
 
 	$('.pause').on('mouseup', function(evt) {
 		pauseSong(song);
 
 		$(this).addClass('play');
 		$(this).removeClass('pause');
+
 	})
+});
+
+$('.fwd').on('mouseup')(function (e) {
+    e.preventDefault();
+    pauseSong(song);
+
+    var next = $('.song_list a.playing').next();
+    if (next.length == 0) {
+        next = $('.playlist a:first-child');
+    }
+    songName = next.attr('title');
+	id = next.attr('data-title');
+	artist = next.attr('data-artist');
+    song = new Audio('../music/' + songName + '.mp3');
+    playSong(song, id, artist);
+
+    $('.song_list a.playing').removeClass('playing');
+    next.addClass('playing');
+});
+
+
+$('.back').on('mouseup')(function (e) {
+    e.preventDefault();
+    pauseSong(song);
+
+    var prev = $('.song_list a.playing').prev();
+    if (prev.length == 0) {
+        prev = $('.playlist a:last-child');
+    }
+    songName = prev.attr('title');
+	id = prev.attr('data-title');
+	artist = prev.attr('data-artist');
+    song = new Audio('../music/' + songName + '.mp3');
+    playSong(song, id, artist);
+
+    $('.song_list a.playing').removeClass('playing');
+    prev.addClass('playing');
 });
 
 function playSong(song, songName, artist){
