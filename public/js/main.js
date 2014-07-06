@@ -13,11 +13,11 @@ var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 	//we have a user, YAY!
 	if ( user ) {
 		$('h2').text('Welcome ' + user.displayName +'!'); //welcome our user
-		
+
 		myRef = usersRef.child(user.id); //setup gloabl db
 		myRef.child('displayName').set(user.displayName); //add user to firebase
 		_user = user; //for reference in other places
-		
+
 		manageConnection(user); //online status
 	}
 });

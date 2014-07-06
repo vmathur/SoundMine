@@ -15,11 +15,7 @@ var previousMoodMap = {};
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
-<<<<<<< HEAD
-user = 10154295291765322,
-=======
 user = 10152128449356744,
->>>>>>> FETCH_HEAD
 mood,
 myRef = usersRef.child(user);
 
