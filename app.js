@@ -15,7 +15,8 @@ var previousMoodMap = {};
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
-user = 10154295291765322,
+user = 10152128449356744,
+mood,
 myRef = usersRef.child(user);
 
 // view engine setup
@@ -38,7 +39,7 @@ app.post('/sensor',function(req,res){
     timeStamp = data.time;
     user = data.user;
 
-    console.log(user+' is '+mood+' at '+timeStamp);
+    console.log(user+' is '+mood+' at '+ timeStamp);
 
 
     //query recently played song db
@@ -61,8 +62,9 @@ app.post('/sensor',function(req,res){
     // }else{
     //     suggestSong(user,mood);
     // }
-    setPreviousMood(user,mood)
 });
+
+setPreviousMood(user,mood);
 
 myRef.on('value', function(snapshot){
     snapshot = snapshot.val();
@@ -81,7 +83,7 @@ function getPreviousMood(user){
 }
 
 function setPreviousMood(user,mood){
-    myRef.child('currentMood').set('active');
+    myRef.child('currentMood').set('relaxed');
 }
 
 function getRecentSong(timeStamp, user){
@@ -154,5 +156,6 @@ http.createServer(function (req, res) {
 }).listen(1337, '127.0.0.1');
 
 console.log('Server running at http://127.0.0.1:1337/');
+setPreviousMood(user,mood);
 
 module.exports = app;
