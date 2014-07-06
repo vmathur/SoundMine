@@ -16,6 +16,7 @@ var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
 user = 10154295291765322,
+mood,
 myRef = usersRef.child(user);
 
 // view engine setup
@@ -66,8 +67,8 @@ app.post('/sensor',function(req,res){
 
 myRef.on('value', function(snapshot){
     snapshot = snapshot.val();
-    var mood = snapshot.currentMood;
     previousMood = mood;
+    mood = snapshot.currentMood;
     currentSong = snapshot.currentlyListening;
     // setPreviousMood(mood);
 });
@@ -154,5 +155,7 @@ http.createServer(function (req, res) {
 }).listen(1337, '127.0.0.1');
 
 console.log('Server running at http://127.0.0.1:1337/');
+
+setPreviousMood(user,mood);
 
 module.exports = app;
