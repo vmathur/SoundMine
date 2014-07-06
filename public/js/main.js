@@ -2,7 +2,6 @@ var container = $('.container'),
 	player = $('.player'), 
 	play = $('#play'),
 	pause = $('#pause'),
-	song = new Audio('../music/lights.mp3'),
 	_user,
 	_currentMood;
 
@@ -35,39 +34,44 @@ function manageConnection(user) {
 	});
 }
 
-
-$('#play').click(function(e){
+$('.play').on('mouseup', function(e){
 	e.preventDefault();
 	timestamp = e.timestamp;
+	songName = $(this).attr('title');
 	id = $(this).attr('data-title');
 	artist = $(this).attr('data-artist');
 
 	//playing song using the id
-	playSongById(id, artist);
+	song = new Audio('../music/' + songName + '.mp3');
+	playSong(song, id, artist);
 
 	//saving the song id and the timestamp to the database
 	saveToRef(timestamp, id);
 
-	$(this).attr('id', 'pause');
+	$(this).removeClass('play');
+	$(this).addClass('pause');
 
-	$('#pause').click(function(evt) {
-		song.pause();
-		usersRef.child(_user.id).child('currentlyListening').set(null);
+	$('.pause').on('mouseup', function(evt) {
+		pauseSong(song);
 
-		$(this).attr('id', 'play');
+		$(this).addClass('play');
+		$(this).removeClass('pause');
 	})
 });
 
-function playSongById(songId, artist){
+function playSong(song, songName, artist){
 	song.play();
-	usersRef.child(_user.id).child('currentlyListening').set(songId + ' - ' + artist);
+	// setting the current song in firebase
+	usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
 }
 
-function pauseSong() {
-
+function pauseSong(song) {
+	song.pause();
+	usersRef.child(_user.id).child('currentlyListening').set(null);
 }
 
 function saveToRef(timestamp, songId) {
+	// adding song to the right playlist based on user's current mood
 	if ( _currentMood === 'active' ) {
 		activeRef.push(songId);
 	} else if ( _currentMood === 'relaxed' ) {
@@ -75,12 +79,5 @@ function saveToRef(timestamp, songId) {
 	}
 }
 
-function manageListens() {
-	console.log('managing what i listen to');
-}
-
-function manageMood() {
-
-}
-
+// triggering facebook login
 auth.login('facebook');
