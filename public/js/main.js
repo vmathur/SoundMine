@@ -50,13 +50,13 @@ function manageConnection(user) {
 function initAudio(elem) {
 	songName = $(elem).attr('title');
 	id = $(elem).attr('data-title');
-	song = songs[songName];
-	track = song.track;
+	song = songName;
+	track = songs[songName].track;
 }
 
 // function for when you click on play button or on a song url in the playlist
-$('.play').on('click', function(e){
-	e.preventDefault();
+$('.play').on('click', function(evt){
+	evt.preventDefault();
 	var _this = this;
 	
 	// initialize the song into a global song variable
@@ -88,8 +88,8 @@ $('.pause').on('click', function(evt) {
 
 });
 
-$('.fwd').on('click', function(e) {
-    e.preventDefault();
+$('.fwd').on('click', function(evt) {
+    evt.preventDefault();
 
     // pause whatever is playing right now
     pauseSong();
@@ -119,7 +119,7 @@ $('.back').on('click', function(e) {
     initAudio(prev);
 
     // play the previous song
-	playSong(songName, id, artist);
+	playSong(song);
 
     // saveToRef(timestamp, id);
 });
@@ -132,7 +132,7 @@ function playSong(songName){
     usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + song.artist);
 }
 
-function pauseSong(songName) {
+function pauseSong() {
 	// if there is a track initialized that is possibly playing, pause it
 	if (track) track.pause();
 
@@ -151,7 +151,7 @@ function prevSong() {
 	return prev;
 }
 
-function nextSong(song, songName) {
+function nextSong() {
 	var next = $('.song_list a.playing').next();
 	if (next.length == 0) {
 	    next = $('.song_list a:first-child');
