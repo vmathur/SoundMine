@@ -57,9 +57,7 @@ function manageConnection(user) {
 }
 
 function initAudio(elem) {
-	songName = $(elem).attr('title');
-	id = $(elem).attr('data-title');
-	song = songName;
+	song = $(elem).attr('title')
 	track = songs[song].track;
 }
 
@@ -162,12 +160,12 @@ $('.like').on('click', function(evt) {
 	//change colour of icon
 });
 
-function playSong(songName){
+function playSong(){
 	// if we have initialized a track, play it
     if (track) track.play();
 
     // set the current song in firebase
-    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + song.artist);
+    usersRef.child(_user.id).child('currentlyListening').set(song + ' - ' + songs[song].artist);
 
 	$(".playButton").hide();
 	$(".pause").show();
