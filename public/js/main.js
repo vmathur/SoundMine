@@ -69,6 +69,9 @@ $('.play').on('click', function(evt){
 	// pause whatever is playing right now
     pauseSong();
 
+	// resets current song by loading
+    track.load();
+
 	// initialize the song into a global song variable
 	initAudio($(this));
 
