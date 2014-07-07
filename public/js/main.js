@@ -8,7 +8,7 @@ var container = $('.container'),
 
 //firebase references
 var appRef = new Firebase('https://shining-fire-9992.firebaseio.com/'),
-usersRef = appRef.child('user_list');
+	usersRef = appRef.child('user_list');
 
 var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 	//we have a user, YAY!
@@ -66,26 +66,49 @@ $('.play').on('click', function(e){
 	})
 });
 
-$('.fwd').on('mouseup', function (e) {
+$('playButton').on('click', function(e){
+	e.preventDefault();
+	timestamp = e.timestamp;
+	var currentSong = $('.song_list a.playing');
+
+	songName = currentSong.attr('title');
+	id = currentSong.attr('data-title');
+	artist = currentSong.attr('data-artist');
+    song = new Audio('../music/' + songName + '.mp3');
+    song.play();
+
+    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+
+
+});
+
+$('.fwd').on('click', function(e) {
     e.preventDefault();
+    timestamp = e.timestamp;
     pauseSong(song);
 
     var next = $('.song_list a.playing').next();
     if (next.length == 0) {
         next = $('.playlist a:first-child');
     }
+
+    $('.song_list a.playing').removeClass('playing');
+    next.addClass('playing');
+    
     songName = next.attr('title');
 	id = next.attr('data-title');
 	artist = next.attr('data-artist');
     song = new Audio('../music/' + songName + '.mp3');
-    playSong(song, id, artist);
+    song.play();
+    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+    //playSong(song, id, artist);
 
-    $('.song_list a.playing').removeClass('playing');
-    next.addClass('playing');
+    saveToRef(timestamp, id);
+
 });
 
 
-$('.back').on('mouseup', function (e) {
+$('.back').on('click', function(e) {
     e.preventDefault();
     pauseSong(song);
 
@@ -93,14 +116,18 @@ $('.back').on('mouseup', function (e) {
     if (prev.length == 0) {
         prev = $('.playlist a:last-child');
     }
+    $('.song_list a.playing').removeClass('playing');
+    prev.addClass('playing');
+
     songName = prev.attr('title');
 	id = prev.attr('data-title');
 	artist = prev.attr('data-artist');
     song = new Audio('../music/' + songName + '.mp3');
-    playSong(song, id, artist);
+    song.play();
+    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+    //playSong(song, id, artist);
 
-    $('.song_list a.playing').removeClass('playing');
-    prev.addClass('playing');
+    saveToRef(timestamp, id);
 });
 
 function playSong(song, songName, artist){
