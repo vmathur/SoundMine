@@ -6,6 +6,10 @@ var container = $('.container'),
 	_currentMood,
 	song;
 
+//song variables
+var lights = new Audio('../music/lights.mp3');
+var daydreaming = new Audio('../music/daydreaming.mp3');
+
 //firebase references
 var appRef = new Firebase('https://shining-fire-9992.firebaseio.com/'),
 	usersRef = appRef.child('user_list');
@@ -43,17 +47,18 @@ $('.play').on('click', function(e){
 	id = $(this).attr('data-title');
 	artist = $(this).attr('data-artist');
 
+	playSong(songName, id, artist);
+	$(this).addClass('playing');
 	//playing song using the id
-	song = new Audio('../music/' + songName + '.mp3');
-	song.play();
+	//song = new Audio('../music/' + songName + '.mp3');
+	//song.play();
 	// setting the current song in firebase
-	usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+	//usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
 
 	saveToRef(timestamp, id);
 
 	$(this).removeClass('play');
 	$(this).addClass('pause');
-	$(this).addClass('playing');
 
 
 	$('.pause').on('click', function(evt) {
@@ -74,10 +79,8 @@ $('playButton').on('click', function(e){
 	songName = currentSong.attr('title');
 	id = currentSong.attr('data-title');
 	artist = currentSong.attr('data-artist');
-    song = new Audio('../music/' + songName + '.mp3');
-    song.play();
 
-    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+	playSong(songName, id, artist);
 
 
 });
@@ -130,10 +133,12 @@ $('.back').on('click', function(e) {
     saveToRef(timestamp, id);
 });
 
-function playSong(song, songName, artist){
-	song.play();
-	// setting the current song in firebase
-	usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+function playSong(songName, id, artist){
+	song = new Audio('../music/' + songName + '.mp3');
+    song.play();
+
+    // setting current song in firebase
+    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
 }
 
 function pauseSong(song, songName, artist) {
