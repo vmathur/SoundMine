@@ -78,6 +78,7 @@ $('.play').on('click', function(evt){
 	// now that we have a song, let's play it
 	playSong();
 
+	$('.playing').removeClass('playing')
 	$(this).addClass('playing');
 
 	//TODO: change hardcoded "active" to actual current mood
@@ -92,6 +93,8 @@ $('.playButton').on('click', function(evt) {
 	// play the track we want to play
 	playSong();
 
+	$('.song_list a:first-child').addClass('playing');
+	
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
     saveToRef(evt.timestamp, "active", song);
@@ -278,4 +281,3 @@ function updatePlaylistRef() {
 // triggering facebook login
 auth.login('facebook');
 initAudio($('.song_list a:first-child'));
-$('.song_list a:first-child').addClass('playing');
