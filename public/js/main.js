@@ -75,7 +75,6 @@ $('.play').on('click', function(evt){
 	playSong();
 
 	$(this).addClass('playing');
-
 });
 
 $('.playButton').on('click', function(evt) {
@@ -142,17 +141,17 @@ $('.dislike').on('click', function(evt) {
     // pause whatever is playing right now
     pauseSong();
 
+	//TODO: change hardcoded "active" to actual current mood
+    // remove song from mood's setlist
+
+    removeFromRef("active", song);
+
     var next = nextSong();
     // initialize the next song so we can go forward
     initAudio(next);
 
     // now that we have a new track initialized, play it
 	playSong();
-
-	//TODO: change hardcoded "active" to actual current mood
-    // remove song from mood's setlist
-    removeFromRef("active", song);
-
 });
 
 function playSong(songName){
@@ -201,6 +200,8 @@ function nextSong() {
 }
 
 function saveToRef(timestamp, currentMood, song) {
+	activePlaylist = [],
+		relaxedPlaylist = [];
 	// adding song to the right playlist based on user's current mood
 	
 	songs[song].lastPlayed = timestamp;
@@ -210,6 +211,8 @@ function saveToRef(timestamp, currentMood, song) {
 	} else if (currentMood == "relaxed") {
 		songs[song].relaxed = true;
 	}
+
+	updatePlaylistRef();
 }
 
 function removeFromRef(currentMood, song) {
@@ -220,8 +223,23 @@ function removeFromRef(currentMood, song) {
 	} else if (currentMood == "relaxed") {
 		songs[song].relaxed = false;
 	}
+
+	updatePlaylistRef();
 }
 
+function updatePlaylistRef() {
+	activePlaylist = {}, relaxedPlaylist = {};
+	for ( var songRef in songs ) {
+		if ( songs[songRef].active ) activePlaylist[songRef] = true;
+		else if ( !songs[songRef].active ) activePlaylist[songRef] = null;
+		
+		if ( songs[songRef].relaxed ) relaxedPlaylist[songRef] = true;
+		else if ( !songs[songRef].relaxed ) relaxedPlaylist[songRef] = null;
+	}
+
+	usersRef.child(_user.id).child('active').set(activePlaylist)
+	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
+}
 // triggering facebook login
 auth.login('facebook');
 initAudio($('.song_list a:first-child'));
