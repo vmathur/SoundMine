@@ -60,7 +60,7 @@ function initAudio(elem) {
 	songName = $(elem).attr('title');
 	id = $(elem).attr('data-title');
 	song = songName;
-	track = songs[songName].track;
+	track = songs[song].track;
 }
 
 // function for when you click on play button or on a song url in the playlist
@@ -128,7 +128,7 @@ $('.back').on('click', function(evt) {
     initAudio(prev);
 
     // play the previous song
-	playSong(song);
+	playSong();
 
 	//TODO: change hardcoded "active" to actual current mood
     // save song to current mood's list
@@ -179,7 +179,7 @@ function pauseSong() {
 function prevSong() {
 	var prev = $('.song_list a.playing').prev();
 	if (prev.length == 0) {
-	    prev = $('.playlist a:last-child');
+	    prev = $('.song_list a:last-child');
 	}
 	$('.song_list a.playing').removeClass('playing');
 	prev.addClass('playing');
