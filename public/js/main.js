@@ -31,18 +31,31 @@ songs['hurricane'] = { track: new Audio('../music/hurricane.wav'),
 // binary client 
 var client = new BinaryClient('ws://localhost:9000');
 
-// client gets data from server
-client.on('stream', function(stream, meta){    
-    var parts = [];
-    stream.on('data', function(data){
-      parts.push(data);
+    // Recibe el stream del servidor
+    client.on('stream', function(stream, meta) {
+   	   console.log('recieve file');
+      // buffer para las partes
+      var parts = [];
+      // al obtener nuevos datos
+      stream.on('data', function(data) {
+        parts.push(data);
+      });
+      stream.on('end', function() {
+        // despliega los datos en el browser
+        /*
+        var img = document.createElement("img");
+        img.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+        document.body.appendChild(img);        
+        */
+        
+        var music = document.createElement("audio");
+        music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+        music.controls="controls";
+        music.preload="";        
+        document.body.appendChild(music);
+        music.play();        
+      });
     });
-    stream.on('end', function(){
-      var musica = document.createElement("audio");
-      musica.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-      document.body.appendChild(musica);
-    });
-});
 
 
 //firebase references
@@ -74,7 +87,9 @@ function manageConnection(user) {
 }
 
 function initAudio(elem) {
-	song = $(elem).attr('title')
+	song = $(elem).attr('title');
+	//TODO
+	//ask server for song and set to track
 	track = songs[song].track;
 }
 

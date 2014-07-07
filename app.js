@@ -4,17 +4,28 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 
 var app = express();
 
 var previousMoodMap = {};
-
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
 user = 10152128449356744,
 mood,
 myRef = usersRef.child(user);
+
+var BinaryServer = require('binaryjs').BinaryServer;
+var bs = new BinaryServer({ port: 9000 });
+
+bs.on('connection', function (client) {
+    var file = fs.createReadStream(__dirname + '/music/daydreaming.mp3');
+    console.log('send file');
+    //var file = fs.createReadStream(__dirname + '/flower.png');
+    client.send(file);
+});
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
