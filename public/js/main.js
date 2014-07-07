@@ -10,13 +10,22 @@ var container = $('.container'),
 // songs hashmap
 var songs = {};
 songs['lights'] = { track: new Audio('../music/lights.mp3'),
-                	artist: 'Ellie Goulding'    
+                	artist: 'Ellie Goulding',
+                	active: false,
+                	relaxed: false,
+                	lastPlayed: ""
 };
 songs['daydreaming'] = { track: new Audio('../music/daydreaming.mp3'),
-						 artist: 'Lupe Fiasco' 
+						 artist: 'Lupe Fiasco',
+                		 active: false,
+                		 relaxed: false,
+                		 lastPlayed: ""
 };
 songs['hurricane'] = { track: new Audio('../music/hurricane.wav'),
-						 artist: 'MsMr' 
+						 artist: 'MsMr',
+                		 active: false,
+                		 relaxed: false,
+                		 lastPlayed: ""
 };
 
 //firebase references
@@ -76,6 +85,10 @@ $('.playButton').on('click', function(evt) {
 
 	// play the track we want to play
 	playSong();
+
+	//TODO: change hardcoded "active" to actual current mood
+	// save song to current mood's list
+    saveToRef(evt.timestamp, "active", song);
 })
 
 $('.pause').on('click', function(evt) {
@@ -101,13 +114,15 @@ $('.fwd').on('click', function(evt) {
     // now that we have a new track initialized, play it
 	playSong();
 
-    // saveToRef(timestamp, id);
+	//TODO: change hardcoded "active" to actual current mood
+    // save song to current mood's list
+    saveToRef(evt.timestamp, "active", song);
 
 });
 
 
-$('.back').on('click', function(e) {
-    e.preventDefault();
+$('.back').on('click', function(evt) {
+    evt.preventDefault();
 
     // pause whatever is playing right now
     pauseSong();
@@ -121,7 +136,9 @@ $('.back').on('click', function(e) {
     // play the previous song
 	playSong(song);
 
-    // saveToRef(timestamp, id);
+	//TODO: change hardcoded "active" to actual current mood
+    // save song to current mood's list
+    saveToRef(evt.timestamp, "active", song);
 });
 
 function playSong(songName){
@@ -164,12 +181,15 @@ function nextSong() {
 }
 
 
-function saveToRef(timestamp, songId) {
+function saveToRef(timestamp, currentMood, song) {
 	// adding song to the right playlist based on user's current mood
-	if ( _currentMood === 'active' ) {
-		activeRef.push(songId);
-	} else if ( _currentMood === 'relaxed' ) {
-		relaxedRef.push(songId);
+	
+	songs[song].lastPlayed = timestamp;
+
+	if (currentMood == "active") {
+		songs[song].active = true;
+	} else if (currentMood == "relaxed") {
+		songs[song].relaxed = true;
 	}
 }
 
