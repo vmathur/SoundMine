@@ -4,11 +4,20 @@ var container = $('.container'),
 	pause = $('#pause'),
 	_user,
 	_currentMood,
+	_currentSong,
 	song;
 
-//song variables
-var lights = new Audio('../music/lights.mp3');
-var daydreaming = new Audio('../music/daydreaming.mp3');
+// songs hashmap
+var songs = {};
+songs['lights'] = { trackurl: '../music/lights.mp3',
+                	artist: 'Ellie Goulding'    
+};
+songs['daydreaming'] = { trackurl: '../music/daydreaming.mp3',
+						 artist: 'Lupe Fiasco' 
+};
+songs['hurricane'] = { trackurl: '../music/hurricane.wav',
+						 artist: 'MsMr' 
+};
 
 //firebase references
 var appRef = new Firebase('https://shining-fire-9992.firebaseio.com/'),
@@ -45,9 +54,8 @@ $('.play').on('click', function(e){
 	timestamp = e.timestamp;
 	songName = $(this).attr('title');
 	id = $(this).attr('data-title');
-	artist = $(this).attr('data-artist');
 
-	playSong(songName, id, artist);
+	playSong(songName, id);
 	$(this).addClass('playing');
 	//playing song using the id
 	//song = new Audio('../music/' + songName + '.mp3');
@@ -55,11 +63,10 @@ $('.play').on('click', function(e){
 	// setting the current song in firebase
 	//usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
 
-	saveToRef(timestamp, id);
-
+	//saveToRef(timestamp, id);
+	//alert("hi");
 	$(this).removeClass('play');
 	$(this).addClass('pause');
-
 
 	$('.pause').on('click', function(evt) {
 		song.pause();
@@ -68,27 +75,13 @@ $('.play').on('click', function(e){
 		$(this).addClass('play');
 		$(this).removeClass('pause');
 
-	})
-});
-
-$('playButton').on('click', function(e){
-	e.preventDefault();
-	timestamp = e.timestamp;
-	var currentSong = $('.song_list a.playing');
-
-	songName = currentSong.attr('title');
-	id = currentSong.attr('data-title');
-	artist = currentSong.attr('data-artist');
-
-	playSong(songName, id, artist);
-
-
+	});
 });
 
 $('.fwd').on('click', function(e) {
     e.preventDefault();
     timestamp = e.timestamp;
-    pauseSong(song);
+    _currentSong.pause();
 
     var next = $('.song_list a.playing').next();
     if (next.length == 0) {
@@ -101,9 +94,9 @@ $('.fwd').on('click', function(e) {
     songName = next.attr('title');
 	id = next.attr('data-title');
 	artist = next.attr('data-artist');
-    song = new Audio('../music/' + songName + '.mp3');
-    song.play();
-    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+    track = new Audio(song.trackurl);
+    track.play();
+    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + song.artist);
     //playSong(song, id, artist);
 
     saveToRef(timestamp, id);
@@ -113,7 +106,8 @@ $('.fwd').on('click', function(e) {
 
 $('.back').on('click', function(e) {
     e.preventDefault();
-    pauseSong(song);
+    timestamp = e.timestamp;
+    _currentSong.pause();
 
     var prev = $('.song_list a.playing').prev();
     if (prev.length == 0) {
@@ -124,24 +118,25 @@ $('.back').on('click', function(e) {
 
     songName = prev.attr('title');
 	id = prev.attr('data-title');
-	artist = prev.attr('data-artist');
-    song = new Audio('../music/' + songName + '.mp3');
-    song.play();
-    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+    track = new Audio(song.trackurl);
+    track.play();
+    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + song.artist);
     //playSong(song, id, artist);
 
     saveToRef(timestamp, id);
 });
 
-function playSong(songName, id, artist){
-	song = new Audio('../music/' + songName + '.mp3');
-    song.play();
+function playSong(songName, id){
+	song = songs[songName];
+	track = new Audio(song.trackurl);
+	_currentSong = track;
+    track.play();
 
-    // setting current song in firebase
-    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + artist);
+    // Setting current song in firebase
+    usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + song.artist);
 }
 
-function pauseSong(song, songName, artist) {
+function pauseSong(song, songName) {
 	song.pause();
 	// removing the current song in firebase
 	usersRef.child(_user.id).child('currentlyListening').set(null);
