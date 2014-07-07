@@ -154,6 +154,14 @@ $('.dislike').on('click', function(evt) {
 	playSong();
 });
 
+$('.like').on('click', function(evt) {
+    evt.preventDefault();
+
+	//TODO: increase 'weighting' of song in mood playlist
+
+	//change colour of icon
+});
+
 function playSong(songName){
 	// if we have initialized a track, play it
     if (track) track.play();
