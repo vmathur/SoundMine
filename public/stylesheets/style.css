@@ -39,3 +39,7 @@ h1 {
 .pause {
 	display: none;
 }
+
+.playing {
+	background-color: #ccc;
+}
