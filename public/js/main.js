@@ -103,7 +103,8 @@ $('.fwd').on('click', function(evt) {
     // pause whatever is playing right now
     pauseSong();
 
-    track.currentTime = 0;
+    // resets current song by loading
+    track.load();
 
     var next = nextSong();
     // initialize the next song so we can go forward
@@ -124,6 +125,9 @@ $('.back').on('click', function(evt) {
 
     // pause whatever is playing right now
     pauseSong();
+
+    // resets current song by loading
+    track.load();
 
     // get the previous song
     var prev = prevSong();
