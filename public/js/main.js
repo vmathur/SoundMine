@@ -84,6 +84,7 @@ $('.playButton').on('click', function(evt) {
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
     saveToRef(evt.timestamp, "active", song);
+
 })
 
 $('.pause').on('click', function(evt) {
@@ -157,7 +158,9 @@ $('.like').on('click', function(evt) {
 
 	//TODO: increase 'weighting' of song in mood playlist
 
-	//change colour of icon
+	//Toggle colour of thumbs up button
+   	$(this).toggleClass("green");
+
 });
 
 function playSong(){
@@ -205,6 +208,11 @@ function prevSong() {
 	$('.song_list a.playing').removeClass('playing');
 	prev.addClass('playing');
 
+	//Reset like button colour
+	if ($('.like').hasClass('green')) {
+		$('.like').toggleClass("green");
+	}
+
 	return prev;
 }
 
@@ -216,6 +224,11 @@ function nextSong() {
 
 	$('.song_list a.playing').removeClass('playing');
 	next.addClass('playing');
+
+	//Reset like button colour
+	if ($('.like').hasClass('green')) {
+		$('.like').toggleClass("green");
+	}
 
 	return next;
 }
