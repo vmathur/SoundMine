@@ -169,6 +169,21 @@ function playSong(){
 
 	$(".playButton").hide();
 	$(".pause").show();
+
+	//TODO: Make this not shit
+	if (song == 'lights') {
+		$("#song1").css("background-color","#E8E8E8");
+		$("#song2").css("background-color","white");
+		$("#song3").css("background-color","white");
+	} else if (song == 'daydreaming') {
+		$("#song1").css("background-color","white");
+		$("#song2").css("background-color","#E8E8E8");
+		$("#song3").css("background-color","white");
+	} else if (song == 'hurricane') {
+		$("#song1").css("background-color","white");
+		$("#song2").css("background-color","white");
+		$("#song3").css("background-color","#E8E8E8");
+	}
 }
 
 function pauseSong() {
