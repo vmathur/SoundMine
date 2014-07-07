@@ -67,7 +67,7 @@ function initAudio(elem) {
 $('.play').on('click', function(evt){
 	evt.preventDefault();
 	var _this = this;
-	
+
 	// initialize the song into a global song variable
 	initAudio($(this));
 
@@ -75,8 +75,6 @@ $('.play').on('click', function(evt){
 	playSong();
 
 	$(this).addClass('playing');
-	$(this).removeClass('play');
-	$(this).addClass('pause');
 
 });
 
@@ -93,9 +91,6 @@ $('.playButton').on('click', function(evt) {
 
 $('.pause').on('click', function(evt) {
 	evt.preventDefault();
-
-	$(this).addClass('play');
-	$(this).removeClass('pause');
 
 	pauseSong();
 
@@ -166,6 +161,9 @@ function playSong(songName){
 
     // set the current song in firebase
     usersRef.child(_user.id).child('currentlyListening').set(songName + ' - ' + song.artist);
+
+	$(".playButton").hide();
+	$(".pause").show();
 }
 
 function pauseSong() {
@@ -174,6 +172,9 @@ function pauseSong() {
 
 	// removing the current song in firebase
 	usersRef.child(_user.id).child('currentlyListening').set(null);
+
+	$(".pause").hide();
+	$(".playButton").show();
 }
 
 function prevSong() {
