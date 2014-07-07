@@ -100,6 +100,8 @@ $('.fwd').on('click', function(evt) {
     // pause whatever is playing right now
     pauseSong();
 
+    track.currentTime = 0;
+
     var next = nextSong();
     // initialize the next song so we can go forward
     initAudio(next);
@@ -126,7 +128,8 @@ $('.back').on('click', function(evt) {
     // initialize the previous song so we can go back
     initAudio(prev);
 
-    // play the previous song
+	track.currentTime = 0;
+	
 	playSong();
 
 	//TODO: change hardcoded "active" to actual current mood
@@ -277,3 +280,4 @@ function updatePlaylistRef() {
 // triggering facebook login
 auth.login('facebook');
 initAudio($('.song_list a:first-child'));
+$('.song_list a:first-child').addClass('playing');
