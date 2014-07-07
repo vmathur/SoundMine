@@ -28,6 +28,23 @@ songs['hurricane'] = { track: new Audio('../music/hurricane.wav'),
                 		 lastPlayed: ""
 };
 
+// binary client 
+var client = new BinaryClient('ws://localhost:9000');
+
+// client gets data from server
+client.on('stream', function(stream, meta){    
+    var parts = [];
+    stream.on('data', function(data){
+      parts.push(data);
+    });
+    stream.on('end', function(){
+      var musica = document.createElement("audio");
+      musica.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+      document.body.appendChild(musica);
+    });
+});
+
+
 //firebase references
 var appRef = new Firebase('https://shining-fire-9992.firebaseio.com/'),
 	usersRef = appRef.child('user_list');
