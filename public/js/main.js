@@ -141,6 +141,25 @@ $('.back').on('click', function(evt) {
     saveToRef(evt.timestamp, "active", song);
 });
 
+$('.dislike').on('click', function(evt) {
+    evt.preventDefault();
+
+    // pause whatever is playing right now
+    pauseSong();
+
+    var next = nextSong();
+    // initialize the next song so we can go forward
+    initAudio(next);
+
+    // now that we have a new track initialized, play it
+	playSong();
+
+	//TODO: change hardcoded "active" to actual current mood
+    // remove song from mood's setlist
+    removeFromRef("active", song);
+
+});
+
 function playSong(songName){
 	// if we have initialized a track, play it
     if (track) track.play();
@@ -180,7 +199,6 @@ function nextSong() {
 	return next;
 }
 
-
 function saveToRef(timestamp, currentMood, song) {
 	// adding song to the right playlist based on user's current mood
 	
@@ -190,6 +208,16 @@ function saveToRef(timestamp, currentMood, song) {
 		songs[song].active = true;
 	} else if (currentMood == "relaxed") {
 		songs[song].relaxed = true;
+	}
+}
+
+function removeFromRef(currentMood, song) {
+	// removing song from the right playlist based on user's current mood
+
+	if (currentMood == "active") {
+		songs[song].active = false;
+	} else if (currentMood == "relaxed") {
+		songs[song].relaxed = false;
 	}
 }
 
