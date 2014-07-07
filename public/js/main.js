@@ -9,19 +9,19 @@ var container = $('.container'),
 
 // songs hashmap
 var songs = {};
-songs['lights'] = { track: new Audio('../music/lights.mp3'),
+songs['lights'] = { track: new Audio(),
                 	artist: 'Ellie Goulding',
                 	active: false,
                 	relaxed: false,
                 	lastPlayed: ""
 };
-songs['daydreaming'] = { track: new Audio('../music/daydreaming.mp3'),
+songs['daydreaming'] = { track: new Audio(),
 						 artist: 'Lupe Fiasco',
                 		 active: false,
                 		 relaxed: false,
                 		 lastPlayed: ""
 };
-songs['hurricane'] = { track: new Audio('../music/hurricane.wav'),
+songs['hurricane'] = { track: new Audio(),
 						 artist: 'MsMr',
                 		 active: false,
                 		 relaxed: false,
@@ -31,31 +31,22 @@ songs['hurricane'] = { track: new Audio('../music/hurricane.wav'),
 // binary client 
 var client = new BinaryClient('ws://localhost:9000');
 
-    // Recibe el stream del servidor
-    client.on('stream', function(stream, meta) {
-   	   console.log('recieve file');
-      // buffer para las partes
-      var parts = [];
-      // al obtener nuevos datos
-      stream.on('data', function(data) {
-        parts.push(data);
-      });
-      stream.on('end', function() {
-        // despliega los datos en el browser
-        /*
-        var img = document.createElement("img");
-        img.src = (window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-        document.body.appendChild(img);        
-        */
-        
-        var music = document.createElement("audio");
-        music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-        music.controls="controls";
-        music.preload="";        
-        document.body.appendChild(music);
-        music.play();        
-      });
-    });
+// client.on('stream', function(stream, meta) {
+//    console.log('recieve file');
+//   var parts = [];
+//   stream.on('data', function(data) {
+//     parts.push(data);
+//   });
+//   stream.on('end', function() {
+//   	var audio = new Blob(parts);
+//     //var music = document.createElement("audio");
+//     //music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+//     //music.controls="controls";
+//     //music.preload="";        
+//     //document.body.appendChild(music);
+//     //music.play();        
+//   });
+// });
 
 
 //firebase references
@@ -88,9 +79,23 @@ function manageConnection(user) {
 
 function initAudio(elem) {
 	song = $(elem).attr('title');
-	//TODO
-	//ask server for song and set to track
-	track = songs[song].track;
+	client.send('stream', song);
+
+	client.on('stream', function(stream, meta) {
+		console.log('recieve file');
+		var parts = [];
+		stream.on('data', function(data) {
+	    	parts.push(data);
+	  	});
+	  stream.on('end', function() {
+	  	var audio = new Audio(parts);
+	    var music = document.createElement("audio");
+	    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+	    track = songs[song].track;
+	    track.src = music.src;
+	    playSong();        
+	  });
+	});
 }
 
 // function for when you click on play button or on a song url in the playlist
@@ -101,16 +106,10 @@ $('.play').on('click', function(evt){
 	// pause whatever is playing right now
     pauseSong();
 
-	// resets current song by loading
-    track.load();
-
 	// initialize the song into a global song variable
 	initAudio($(this));
 
 	// now that we have a song, let's play it
-	playSong();
-
-	$('.playing').removeClass('playing')
 	$(this).addClass('playing');
 
 	//TODO: change hardcoded "active" to actual current mood
@@ -122,8 +121,7 @@ $('.play').on('click', function(evt){
 $('.playButton').on('click', function(evt) {
 	evt.preventDefault();
 
-	// play the track we want to play
-	playSong();
+	initAudio($('.song_list a:first-child'));
 
 	$('.song_list a:first-child').addClass('playing');
 	
@@ -146,15 +144,9 @@ $('.fwd').on('click', function(evt) {
     // pause whatever is playing right now
     pauseSong();
 
-    // resets current song by loading
-    track.load();
-
     var next = nextSong();
     // initialize the next song so we can go forward
     initAudio(next);
-
-    // now that we have a new track initialized, play it
-	playSong();
 
 	//TODO: change hardcoded "active" to actual current mood
     // save song to current mood's list
@@ -169,16 +161,11 @@ $('.back').on('click', function(evt) {
     // pause whatever is playing right now
     pauseSong();
 
-    // resets current song by loading
-    track.load();
-
     // get the previous song
     var prev = prevSong();
 
     // initialize the previous song so we can go back
     initAudio(prev);
-	
-	playSong();
 
 	//TODO: change hardcoded "active" to actual current mood
     // save song to current mood's list
@@ -200,8 +187,6 @@ $('.dislike').on('click', function(evt) {
     // initialize the next song so we can go forward
     initAudio(next);
 
-    // now that we have a new track initialized, play it
-	playSong();
 });
 
 $('.like').on('click', function(evt) {
@@ -312,4 +297,3 @@ function updatePlaylistRef() {
 }
 // triggering facebook login
 auth.login('facebook');
-initAudio($('.song_list a:first-child'));

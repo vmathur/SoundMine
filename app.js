@@ -16,16 +16,24 @@ user = 10152128449356744,
 mood,
 myRef = usersRef.child(user);
 
+var songMap = {
+    'daydreaming':'/music/daydreaming.mp3',
+    'hurricane'  :'/music/hurricane.wav',
+    'lights'     :'/music/lights.mp3'
+};
+
+
 var BinaryServer = require('binaryjs').BinaryServer;
+
 var bs = new BinaryServer({ port: 9000 });
 
 bs.on('connection', function (client) {
-    var file = fs.createReadStream(__dirname + '/music/daydreaming.mp3');
-    console.log('send file');
-    //var file = fs.createReadStream(__dirname + '/flower.png');
-    client.send(file);
+    client.on('stream', function (stream, songTitle) {
+        console.log('requesting song: '+songTitle);
+        var file = fs.createReadStream(__dirname + songMap[songTitle]);
+        client.send(file);
+    });
 });
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,6 +46,9 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+
+
 app.get('/', function(req, res) {
   res.render('/index.html');
 });
@@ -49,7 +60,6 @@ app.post('/sensor',function(req,res){
     user = data.user;
 
     console.log(user+' is '+mood+' at '+ timeStamp);
-
 });
 
 setPreviousMood(user,mood);
