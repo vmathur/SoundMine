@@ -5,9 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
 var app = express();
 
 var previousMoodMap = {};
@@ -30,8 +27,9 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.get('/', function(req, res) {
+  res.render('/index.html');
+});
 
 app.post('/sensor',function(req,res){
     data = req.body;
@@ -41,27 +39,6 @@ app.post('/sensor',function(req,res){
 
     console.log(user+' is '+mood+' at '+ timeStamp);
 
-
-    //query recently played song db
-    //query for user previous mood
-    //check if mood timestamp is between song time interval, or after song start
-
-    //if true
-        //if the previous mood is the same, then do B
-        //if the previous mood is is different or non existant, then do A
-    //if false
-        //Do A
-
-
-    // if(currentSong){
-    //     if(mood===previousMood){
-    //         storeSongMood(user,mood,currentSong);
-    //     }else{
-    //         suggestSong(user,mood);
-    //     }
-    // }else{
-    //     suggestSong(user,mood);
-    // }
 });
 
 setPreviousMood(user,mood);
@@ -71,7 +48,7 @@ myRef.on('value', function(snapshot){
     previousMood = mood;
     mood = snapshot.currentMood;
     currentSong = snapshot.currentlyListening;
-    // setPreviousMood(mood);
+    //setPreviousMood(mood);
 });
 
 function getPreviousMood(user){
@@ -84,30 +61,6 @@ function getPreviousMood(user){
 
 function setPreviousMood(user,mood){
     myRef.child('currentMood').set('relaxed');
-}
-
-function getRecentSong(timeStamp, user){
-
-    //return the song id for a song that started playing 
-    //before the time stamp and ended after the time stamp(if no end time, then just base off of start time)
-
-    //if there is none, return null
-}
-
-function getCurrentSong(user){ 
-
-}
-
-//A) suggest song to user
-function suggestSong(user,mood){
-    //querydb for songs that match the mood
-    //send to client
-    //client should call play song by id
-}
-
-//B) match mood to song
-function storeSongMood(user,mood,song){
-    //-store song mood combo in db
 }
 
 //DBs needed
@@ -123,40 +76,6 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-
-/// error handlers
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-    app.use(function(err, req, res, next) {
-        res.status(err.status || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
-    });
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
-});
-
-var http = require('http');
-
-http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello World\n');
-}).listen(1337, '127.0.0.1');
-
-console.log('Server running at http://127.0.0.1:1337/');
-setPreviousMood(user,mood);
 
 setPreviousMood(user,mood);
 
