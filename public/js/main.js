@@ -31,24 +31,6 @@ songs['hurricane'] = { track: new Audio(),
 // binary client 
 var client = new BinaryClient('ws://localhost:9000');
 
-// client.on('stream', function(stream, meta) {
-//    console.log('recieve file');
-//   var parts = [];
-//   stream.on('data', function(data) {
-//     parts.push(data);
-//   });
-//   stream.on('end', function() {
-//   	var audio = new Blob(parts);
-//     //var music = document.createElement("audio");
-//     //music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-//     //music.controls="controls";
-//     //music.preload="";        
-//     //document.body.appendChild(music);
-//     //music.play();        
-//   });
-// });
-
-
 //firebase references
 var appRef = new Firebase('https://shining-fire-9992.firebaseio.com/'),
 	usersRef = appRef.child('user_list');
