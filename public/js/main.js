@@ -79,6 +79,11 @@ $('.play').on('click', function(evt){
 	playSong();
 
 	$(this).addClass('playing');
+
+	//TODO: change hardcoded "active" to actual current mood
+	// save song to current mood's list
+    saveToRef(evt.timestamp, "active", song);
+    
 });
 
 $('.playButton').on('click', function(evt) {
