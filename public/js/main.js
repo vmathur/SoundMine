@@ -78,6 +78,7 @@ function initAudio(elem) {
 	    playSong();        
 	  });
 	});
+
 }
 
 // function for when you click on play button or on a song url in the playlist
@@ -106,10 +107,13 @@ $('.play').on('click', function(evt){
 $('.playButton').on('click', function(evt) {
 	evt.preventDefault();
 
-	initAudio($('.song_list a:first-child'));
+	if (!(track)) {
+		initAudio($('.song_list a:first-child'));
+		$('.song_list a:first-child').addClass('playing');
+	} else {
+		playSong();
+	}
 
-	$('.song_list a:first-child').addClass('playing');
-	
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
     saveToRef(evt.timestamp, "active", song);
