@@ -91,6 +91,9 @@ $('.play').on('click', function(evt){
 	// initialize the song into a global song variable
 	initAudio($(this));
 
+	// remove previous song's 'playing' class
+	$('.song_list a.playing').removeClass('playing');
+	
 	// now that we have a song, let's play it
 	$(this).addClass('playing');
 
