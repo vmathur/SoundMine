@@ -17,9 +17,9 @@
 10 error You can get their info via:
 10 error     npm owner ls soundmine_web
 10 error There is likely additional logging output above.
-11 error System Darwin 13.2.0
+11 error System Darwin 13.3.0
 12 error command "node" "/usr/local/bin/npm" "start"
-13 error cwd /Users/nathanyim/Documents/University of Waterloo/SYDE/3A/SYDE 361/Project/GitHub/SoundMine
+13 error cwd /Users/Caprica-Six/SoundMine
 14 error node -v v0.10.29
 15 error npm -v 1.4.14
 16 error code ELIFECYCLE

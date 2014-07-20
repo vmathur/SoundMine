@@ -11,20 +11,20 @@ var container = $('.container'),
 var songs = {};
 songs['lights'] = { track: new Audio(),
                 	artist: 'Ellie Goulding',
-                	active: false,
-                	relaxed: false,
+                	active: 1,
+                	relaxed: 1,
                 	lastPlayed: ""
 };
 songs['daydreaming'] = { track: new Audio(),
 						 artist: 'Lupe Fiasco',
-                		 active: false,
-                		 relaxed: false,
+                		 active: 1,
+                		 relaxed: 1,
                 		 lastPlayed: ""
 };
 songs['hurricane'] = { track: new Audio(),
 						 artist: 'MsMr',
-                		 active: false,
-                		 relaxed: false,
+                		 active: 1,
+                		 relaxed: 1,
                 		 lastPlayed: ""
 };
 
@@ -44,6 +44,8 @@ var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 		_user = user; //for reference in other places
 
 		manageConnection(user); //online status
+		activePlaylistRef = usersRef.child(_user.id).child('active');
+		relaxedPlaylistRef = usersRef.child(_user.id).child('relaxed');
 	}
 });
 
@@ -197,6 +199,7 @@ function playSong(){
 
 	$(".playButton").hide();
 	$(".pause").show();
+
 }
 
 function pauseSong() {
@@ -281,8 +284,35 @@ function updatePlaylistRef() {
 		else if ( !songs[songRef].relaxed ) relaxedPlaylist[songRef] = null;
 	}
 
-	usersRef.child(_user.id).child('active').set(activePlaylist)
+	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
+
+	activePlaylistRef.on('value', function(snapshot){
+		snapshot = snapshot.val();
+		createSuggestions(snapshot);
+	});
+
+	
+	relaxedPlaylistRef.on('value', function(snapshot){
+		snapshot = snapshot.val();
+		createSuggestions(snapshot);
+	});
+
 }
+
+function createSuggestions(moodPlaylist){
+	//grab random 3 songs to display on change
+
+	//TODO: change userMood to be _currentMood
+	var userMood = 'active';
+	var suggestions = new Array();
+	console.log(moodPlaylist);
+	keys = Object.keys(moodPlaylist)
+	console.log(keys);
+	suggestions[0] = keys[0];
+	console.log(suggestions);
+
+}
+
 // triggering facebook login
 auth.login('facebook');
