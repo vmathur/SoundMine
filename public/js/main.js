@@ -172,8 +172,6 @@ $('.dislike').on('click', function(evt) {
     // decrease song's score
     changeScore('dislike');
 
-    removeFromRef("active", song);
-
     var next = nextSong();
     // initialize the next song so we can go forward
     initAudio(next);
@@ -267,13 +265,13 @@ function changeScore(actionType) {
 	var curMood = _currentMood;
 
 	if (actionType == 'likeOn') {
-		songs[song].active = songs[song].active + 10;
+		songs[song].active = songs[song].active + 5;
 	}
 	if (actionType == 'likeOff') {
-		songs[song].active = songs[song].active - 10;
+		songs[song].active = songs[song].active - 5;
 	}
 	else if (actionType == 'dislike') {
-		songs[song].active = songs[song].active - 10;
+		songs[song].active = songs[song].active - 5;
 	}
 	else if (actionType == 'play') {
 		songs[song].active = songs[song].active + 1;
