@@ -1,74 +1,59 @@
 <head>
     
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 	<script type='text/javascript' src='https://cdn.firebase.com/js/client/1.0.17/firebase.js'></script>
 	<script src='https://cdn.firebase.com/js/simple-login/1.5.0/firebase-simple-login.js'></script>
-    <script src="http://cdn.binaryjs.com/0/binary.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="http://cdn.binaryjs.com/0/binary.js"></script>
+  <script src="js/bootstrap.min.js"></script>
 
 	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link href="stylesheets/style.css" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheets/bootstrap.css">
+  <link href="stylesheets/style.css" rel="stylesheet">
+
 </head>
-
-<body>
-    
-      <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container controls">
-        	<a class="back" id="" href="" title="Back"><i class="fa fa-4x fa-step-backward"></i></a>
-        	<a class="playButton" id="" href="" title="Play"><i class="fa fa-4x fa-play"></i></a>
-        	<a class="pause" id="" href="" title="Pause"><i class="fa fa-4x fa-pause"></i></a>
-        	<a class="fwd" id="" href="" title="Forward"><i class="fa fa-4x fa-step-forward"></i></a>
-            <br>
-            <a class="like" id="" href="" title="Like"><i class="fa fa-4x fa-thumbs-up"></i></a>
-            <a class="dislike" id="" href="" title="Dislike"><i class="fa fa-4x fa-thumbs-down"></i></a>
-        </div><!-- / controls -->
-    </div><!-- / Jumbotron-->  
-          
-
-<!--TEST CODE
-    
-<input type="image" src="http://www.clker.com/cliparts/7/x/D/A/T/W/blue-play-button-md.png" class="play" onclick="toggle(this);"/>
-
-<input type="image" src="http://www.clker.com/cliparts/7/x/D/A/T/W/blue-play-button-md.png" class="play" onclick="toggle(this);"/>    
--->
  
     
     
+<body>  
     
-    
-    
-    <div class="container">
-      <!-- Example row of columns -->
-        <h2>Currently Playing</h2>
-        <div class="col-md-8 song_list">
-    	<a class='play title' id="song1" href="" title="lights" data-title='Lights' data-artist='Ellie Goulding'>Lights - Ellie Goulding<i class="fa fa-1x fa-thumbs-up"></i><i class="fa fa-1x fa-thumbs-down"></i></a>
-    	<a class='play title' id="song2" href="" title= "daydreaming" data-title='Daydreaming' data-artist='Lupe Fiasco'>Daydreamin - Lupe Fiasco</a>
-    	<a class='play title' id="song3" href="" title= "hurricane" data-title='Hurricane' data-artist='MSMR'>Hurricane - MSMR</a>
+  <div class="jumbotron">
+    <!-- Music Player Controls-->
+    <div class="container controls">
+      	<a class="back" id="" href="" title="Back"><i class="fa fa-4x fa-step-backward"></i></a>
+      	<a class="playButton" id="" href="" title="Play"><i class="fa fa-4x fa-play"></i></a>
+      	<a class="pause" id="" href="" title="Pause"><i class="fa fa-4x fa-pause"></i></a>
+      	<a class="fwd" id="" href="" title="Forward"><i class="fa fa-4x fa-step-forward"></i></a>
+          <br>
+          <a class="like" id="" href="" title="Like"><i class="fa fa-4x fa-thumbs-up"></i></a>
+          <a class="dislike" id="" href="" title="Dislike"><i class="fa fa-4x fa-thumbs-down"></i></a>
     </div>
-        
-          
-          
-        <div class="col-md-4 recommendations">
-          <h2>Recommendations</h2>
-         <ul>
-                 <!-- <div class="portfolio-item">
-              <a rel="group"  href="images/album1.png" title="Poster Design" ><img src="images/album1.png" alt=""/></a><p class="btn">Poster Design</p>
-                      </div>-->
-                  </ul>
-       </div>
-       
-        </div>
-    
+  </div> 
+      
+  <div class="container">
 
-    
+    <!-- Playlists -->
+    <div class="col-md-8 song_list">
+      <a class='play title' id="song1" href="" title="lights" data-title='Lights' data-artist='Ellie Goulding'>Lights - Ellie Goulding<i class="fa fa-1x fa-thumbs-up"></i><i class="fa fa-1x fa-thumbs-down"></i></a>
+      <a class='play title' id="song2" href="" title= "daydreaming" data-title='Daydreaming' data-artist='Lupe Fiasco'>Daydreamin - Lupe Fiasco</a>
+      <a class='play title' id="song3" href="" title= "hurricane" data-title='Hurricane' data-artist='MSMR'>Hurricane - MSMR</a>
+    </div>
+      
+    <!-- Recommendations Sidebar -->
+    <div class="col-md-4 recommendations">
+      <h2>Recommendations</h2>
+     <ul>
+      <div class="portfolio-item">
+<!--         <a rel="group"  href="images/album1.png" title="Poster Design" ><img src="images/album1.png" alt=""/></a>
+        <p class="btn">Poster Design</p> -->
+      </div>
+    </ul>
+   </div>
+  </div>
+
+  <script type="text/javascript" src = "js/main.js"></script>
 </body>
 
-
-
-<script type="text/javascript" src = "js/main.js"></script>
