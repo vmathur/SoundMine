@@ -11,26 +11,26 @@ var container = $('.container'),
 var songs = {};
 songs['lights'] = { 
 	artist: 'Ellie Goulding',
-	active: 0,
-	relaxed: 0,
+	active: 1,
+	relaxed: 1,
 	lastPlayed: ""
 };
 songs['daydreaming'] = { 
 	artist: 'Lupe Fiasco',
-	active: 0,
-	relaxed: 0,
+	active: 1,
+	relaxed: 1,
 	lastPlayed: ""
 };
 songs['hurricane'] = { 
 	artist: 'MsMr',
-	active: 0,
-	relaxed: 0,
+	active: 1,
+	relaxed: 1,
 	lastPlayed: ""
 };
 songs['one_thing'] = { 
 	artist: 'MsMr',
-    active: 0,
-	relaxed: 0,
+    active: 1,
+	relaxed: 1,
 	lastPlayed: ""
 };
 
@@ -106,7 +106,7 @@ $('.play').on('click', function(evt){
 
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
-    saveToRef(evt.timeStamp, "active", song);
+    changeScore('play');
     
 });
 
@@ -122,7 +122,7 @@ $('.playButton').on('click', function(evt) {
 
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
-    saveToRef(evt.timeStamp, "active", song);
+    changeScore('playButton');
 
 })
 
@@ -139,13 +139,12 @@ $('.fwd').on('click', function(evt) {
     // pause whatever is playing right now
     pauseSong();
 
+    // decrease song's score
+    changeScore('skip');
+
     var next = nextSong();
     // initialize the next song so we can go forward
     initAudio(next);
-
-	//TODO: change hardcoded "active" to actual current mood
-    // save song to current mood's list
-    saveToRef(evt.timestamp, "active", song);
 
 });
 
@@ -161,10 +160,6 @@ $('.back').on('click', function(evt) {
 
     // initialize the previous song so we can go back
     initAudio(prev);
-
-	//TODO: change hardcoded "active" to actual current mood
-    // save song to current mood's list
-    saveToRef(evt.timestamp, "active", song);
 });
 
 $('.dislike').on('click', function(evt) {
@@ -174,7 +169,8 @@ $('.dislike').on('click', function(evt) {
     pauseSong();
 
 	//TODO: change hardcoded "active" to actual current mood
-    // remove song from mood's setlist
+    // decrease song's score
+    changeScore('dislike');
 
     removeFromRef("active", song);
 
@@ -187,7 +183,8 @@ $('.dislike').on('click', function(evt) {
 $('.like').on('click', function(evt) {
     evt.preventDefault();
 
-	//TODO: increase 'weighting' of song in mood playlist
+	//increase 'weighting' of song in mood playlist
+	changeScore('likeOn');
 
 	//Toggle colour of thumbs up button
    	$(this).toggleClass("green");
@@ -249,47 +246,49 @@ function nextSong() {
 	return next;
 }
 
-function saveToRef(timestamp, currentMood, song) {
-	activePlaylist = [],
-		relaxedPlaylist = [];
-	// adding song to the right playlist based on user's current mood
-	
-	songs[song].lastPlayed = timestamp;
-
-	if (currentMood == "active") {
-		songs[song].active = true;
-	} else if (currentMood == "relaxed") {
-		songs[song].relaxed = true;
-	}
-
-	updatePlaylistRef();
-}
-
-function removeFromRef(currentMood, song) {
-	// removing song from the right playlist based on user's current mood
-
-	if (currentMood == "active") {
-		songs[song].active = false;
-	} else if (currentMood == "relaxed") {
-		songs[song].relaxed = false;
-	}
-
-	updatePlaylistRef();
-}
-
 function updatePlaylistRef() {
 	activePlaylist = {}, relaxedPlaylist = {};
 	for ( var songRef in songs ) {
-		if ( songs[songRef].active ) activePlaylist[songRef] = true;
-		else if ( !songs[songRef].active ) activePlaylist[songRef] = null;
+		if ( songs[songRef].active > 2) activePlaylist[songRef] = true;
+		else activePlaylist[songRef] = null;
 		
-		if ( songs[songRef].relaxed ) relaxedPlaylist[songRef] = true;
-		else if ( !songs[songRef].relaxed ) relaxedPlaylist[songRef] = null;
+		if ( songs[songRef].relaxed > 2) relaxedPlaylist[songRef] = true;
+		else relaxedPlaylist[songRef] = null;
 	}
 
-	usersRef.child(_user.id).child('active').set(activePlaylist)
+	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
 	usersRef.child(_user.id).child('all_songs').set(songs);
+}
+
+function changeScore(actionType) {
+
+	//TODO: have a working currentMood
+	var curMood = _currentMood;
+
+	if (actionType == 'likeOn') {
+		songs[song].active = songs[song].active + 10;
+	}
+	if (actionType == 'likeOff') {
+		songs[song].active = songs[song].active - 10;
+	}
+	else if (actionType == 'dislike') {
+		songs[song].active = songs[song].active - 10;
+	}
+	else if (actionType == 'play') {
+		songs[song].active = songs[song].active + 1;
+	}
+	else if (actionType == 'playButton') {
+		songs[song].active = songs[song].active + 1;
+	}
+	else if (actionType == 'skip') {
+		songs[song].active = songs[song].active - 1;
+	}
+
+	usersRef.child(_user.id).child('all_songs').set(songs);
+
+	updatePlaylistRef();
+
 }
 
 auth.login('facebook');
