@@ -1,5 +1,4 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
     background-color: #ffffff;
 }
@@ -9,15 +8,15 @@ a {
     text-decoration: none;
 }
 
-a.play:hover {
-         text-decoration: none !important;
+a:hover {
+         text-decoration: none;
 	}
 
 .jumbotron{
     background-image: url(../images/homebg.jpg) ;
     background-position: right top;
-    background-size: auto;
-    padding: 100px 10px;
+    background-size: cover;
+    height: 400px;
 }
 
 .jumbotron a:hover{
@@ -83,16 +82,16 @@ h1 {
 	
 	#content p {
 		margin: 0 0 30px 0;
-         border-bottom: none !important;
+         border-bottom: none;
 	}
 
 #content a {
-         border-bottom: none !important;
+         border-bottom: none;
 	}
 
 		
 #content a:hover {
-         border-bottom: none !important;
+         border-bottom: none;
 	}
 
 

@@ -9,23 +9,29 @@ var container = $('.container'),
 
 // songs hashmap
 var songs = {};
-songs['lights'] = { track: new Audio(),
-                	artist: 'Ellie Goulding',
-                	active: false,
-                	relaxed: false,
-                	lastPlayed: ""
+songs['lights'] = { 
+	artist: 'Ellie Goulding',
+	active: 0,
+	relaxed: 0,
+	lastPlayed: ""
 };
-songs['daydreaming'] = { track: new Audio(),
-						 artist: 'Lupe Fiasco',
-                		 active: false,
-                		 relaxed: false,
-                		 lastPlayed: ""
+songs['daydreaming'] = { 
+	artist: 'Lupe Fiasco',
+	active: 0,
+	relaxed: 0,
+	lastPlayed: ""
 };
-songs['hurricane'] = { track: new Audio(),
-						 artist: 'MsMr',
-                		 active: false,
-                		 relaxed: false,
-                		 lastPlayed: ""
+songs['hurricane'] = { 
+	artist: 'MsMr',
+	active: 0,
+	relaxed: 0,
+	lastPlayed: ""
+};
+songs['one_thing'] = { 
+	artist: 'MsMr',
+    active: 0,
+	relaxed: 0,
+	lastPlayed: ""
 };
 
 // binary client 
@@ -73,7 +79,7 @@ function initAudio(elem) {
 	  	var audio = new Audio(parts);
 	    var music = document.createElement("audio");
 	    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-	    track = songs[song].track;
+	    track = new Audio();
 	    track.src = music.src;
 	    playSong();        
 	  });
@@ -100,7 +106,7 @@ $('.play').on('click', function(evt){
 
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
-    saveToRef(evt.timestamp, "active", song);
+    saveToRef(evt.timeStamp, "active", song);
     
 });
 
@@ -116,7 +122,7 @@ $('.playButton').on('click', function(evt) {
 
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
-    saveToRef(evt.timestamp, "active", song);
+    saveToRef(evt.timeStamp, "active", song);
 
 })
 
@@ -283,6 +289,7 @@ function updatePlaylistRef() {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist)
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
+	usersRef.child(_user.id).child('all_songs').set(songs);
 }
-// triggering facebook login
+
 auth.login('facebook');
