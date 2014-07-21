@@ -18,7 +18,7 @@ myRef = usersRef.child(user);
 
 var songMap = {
     'daydreaming':'/music/daydreaming.mp3',
-    'hurricane'  :'/music/hurricane.wav',
+    'one_thing'  :'/music/one_thing.mp3',
     'lights'     :'/music/lights.mp3'
 };
 

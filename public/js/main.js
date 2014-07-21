@@ -9,29 +9,33 @@ var container = $('.container'),
 
 // songs hashmap
 var songs = {};
-songs['lights'] = { track: new Audio(),
-                	artist: 'Ellie Goulding',
-                	active: 1,
-                	relaxed: 1,
-                	lastPlayed: ""
+songs['lights'] = { 
+	track: new Audio(),
+	artist: 'Ellie Goulding',
+	active: 1,
+	relaxed: 1,
+	lastPlayed: ""
 };
-songs['daydreaming'] = { track: new Audio(),
-						 artist: 'Lupe Fiasco',
-                		 active: 1,
-                		 relaxed: 1,
-                		 lastPlayed: ""
+songs['daydreaming'] = { 
+	track: new Audio(),
+	artist: 'Lupe Fiasco',
+	active: 1,
+	relaxed: 1,
+	lastPlayed: ""
 };
-songs['hurricane'] = { track: new Audio(),
-						 artist: 'MsMr',
-                		 active: 1,
-                		 relaxed: 1,
-                		 lastPlayed: ""
-};
-songs['one_thing'] = { track: new Audio(),
-						artist: 'MsMr',
-    					active: 1,
-						relaxed: 1,
-						lastPlayed: ""
+// songs['hurricane'] = { 
+// 	track: new Audio(),
+// 	artist: 'MsMr',
+// 	active: 1,
+// 	relaxed: 1,
+// 	lastPlayed: ""
+// };
+songs['one_thing'] = { 
+	track: new Audio(),
+	artist: 'One Direction',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
 };
 
 // binary client 
@@ -76,17 +80,31 @@ function initAudio(elem) {
 		var parts = [];
 		stream.on('data', function(data) {
 	    	parts.push(data);
-	  	});
-	  stream.on('end', function() {
-	  	var audio = new Audio(parts);
-	    var music = document.createElement("audio");
-	    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-	    track = new Audio();
-	    track.src = music.src;
-	    playSong();        
-	  });
+		});
+
+		stream.on('end', function() {
+		    var music = document.createElement("audio");
+		    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+		    track = songs[song].track;
+		    track.src = music.src;
+		    playSong();    	
+		});
 	});
 
+}
+
+
+var songList = $('.song_list');
+for (songRef in songs) {
+	songTitle = capitalize(songRef);
+	linkEl = document.createElement('a');
+	linkEl.className = 'play title';
+	linkEl.title =  songRef; 
+	linkEl.href = "";
+	text = document.createTextNode(songTitle + '-' + songs[songRef].artist);
+	linkEl.appendChild(text);
+	
+	songList.append(linkEl);
 }
 
 // function for when you click on play button or on a song url in the playlist
@@ -147,7 +165,6 @@ $('.fwd').on('click', function(evt) {
     var next = nextSong();
     // initialize the next song so we can go forward
     initAudio(next);
-
 });
 
 
@@ -204,11 +221,14 @@ function playSong(){
 }
 
 function pauseSong() {
+
 	// if there is a track initialized that is possibly playing, pause it
 	if (track) track.pause();
 
+
 	// removing the current song in firebase
 	usersRef.child(_user.id).child('currentlyListening').set(null);
+		console.log('pause', track);
 
 	$(".pause").hide();
 	$(".playButton").show();
@@ -235,6 +255,8 @@ function nextSong() {
 	if (next.length == 0) {
 	    next = $('.song_list a:first-child');
 	}
+
+	console.log(next);
 
 	$('.song_list a.playing').removeClass('playing');
 	next.addClass('playing');
@@ -286,7 +308,7 @@ function changeScore(actionType) {
 		songs[song].active = songs[song].active - 1;
 	}
 
-	usersRef.child(_user.id).child('all_songs').set(songs);
+	usersRef.child(_user.id).child('activell_songs').set(songs);
 
 	updatePlaylistRef();
 
@@ -320,5 +342,10 @@ function createSuggestions(moodPlaylist){
 
 }
 
-// triggering facebook login
+// Helper Functions
+function capitalize(str){
+	str = str == null ? '' : String(str);
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 auth.login('facebook');
