@@ -81,13 +81,13 @@ function initAudio(elem) {
 		stream.on('data', function(data) {
 	    	parts.push(data);
 		});
-
 		stream.on('end', function() {
 		    var music = document.createElement("audio");
 		    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+		    //music.addEventListener('ended', function(){initAudio(nextSong());}, true);
 		    track = songs[song].track;
 		    track.src = music.src;
-		    playSong();    	
+		    playSong();
 		});
 	});
 
@@ -281,7 +281,7 @@ function updatePlaylistRef() {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
-	usersRef.child(_user.id).child('all_songs').set(songs);
+	//usersRef.child(_user.id).child('all_songs').set(songs);
 }
 
 function changeScore(actionType) {
@@ -308,7 +308,7 @@ function changeScore(actionType) {
 		songs[song].active = songs[song].active - 1;
 	}
 
-	usersRef.child(_user.id).child('activell_songs').set(songs);
+	//usersRef.child(_user.id).child('activell_songs').set(songs);
 
 	updatePlaylistRef();
 
@@ -348,4 +348,26 @@ function capitalize(str){
 	return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function onKeyDown(event){
+	switch (event.keyCode){
+		case 32: //spacebar                 
+            if (!$(track)[0].paused) {
+                pauseSong();
+            } else {
+                playSong();
+            }
+            break;
+        case 37: //leftarrow - back        
+    		pauseSong();
+    		initAudio(prevSong());
+            break;
+        case 39: //spacebar - fwd           
+            pauseSong();
+    		initAudio(nextSong());
+            break;
+     }
+  return false;
+}
+
+window.addEventListener("keydown", onKeyDown, false);
 auth.login('facebook');
