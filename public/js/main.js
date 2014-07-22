@@ -38,6 +38,8 @@ songs['one_thing'] = {
 	lastPlayed: ""
 };
 
+$("#pause").hide();
+
 // binary client 
 var client = new BinaryClient('ws://localhost:9000');
 
@@ -146,7 +148,7 @@ $('.playButton').on('click', function(evt) {
 
 })
 
-$('.pause').on('click', function(evt) {
+$('#pause').on('click', function(evt) {
 	evt.preventDefault();
 
 	pauseSong();
@@ -214,7 +216,7 @@ function playSong(){
 
     // set the current song in firebase
     usersRef.child(_user.id).child('currentlyListening').set(song + ' - ' + songs[song].artist);
-
+    $('.songname').text(song + ' - ' + songs[song].artist);
 	$(".playButton").hide();
 	$(".pause").show();
 
@@ -230,7 +232,7 @@ function pauseSong() {
 	usersRef.child(_user.id).child('currentlyListening').set(null);
 		console.log('pause', track);
 
-	$(".pause").hide();
+	$("#pause").hide();
 	$(".playButton").show();
 }
 
@@ -281,7 +283,7 @@ function updatePlaylistRef() {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
-	usersRef.child(_user.id).child('all_songs').set(songs);
+	//usersRef.child(_user.id).child('all_songs').set(songs);
 }
 
 function changeScore(actionType) {
@@ -308,7 +310,7 @@ function changeScore(actionType) {
 		songs[song].active = songs[song].active - 1;
 	}
 
-	usersRef.child(_user.id).child('activell_songs').set(songs);
+	//usersRef.child(_user.id).child('activell_songs').set(songs);
 
 	updatePlaylistRef();
 

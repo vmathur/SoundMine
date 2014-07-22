@@ -4,7 +4,7 @@ body {
 }
 
 a {
-  color: #ffffff;
+  color: white;
     text-decoration: none;
 }
 
@@ -16,15 +16,18 @@ a:hover {
     background-image: url(../images/homebg.jpg) ;
     background-position: right top;
     background-size: cover;
-    height: 400px;
+    position: relative;
+    padding: 8% 0;
+    
 }
 
 .jumbotron a:hover{
     color: grey;
 }
 
+
 .like.green {
-	color: #00CC00;
+	color: grey;
 }
 
 h1 {
@@ -60,52 +63,74 @@ h1 {
 	border: 1px solid #ccc;
     color: grey;
 }
-   
+
+
+.status{
+    position: absolute; 
+    bottom: 0;
+    left 0;
+    display: center;
+	width: 100%;
+	border-top: 1px solid #ccc;
+    color: grey;
+    background: grey;
+    padding: 0.2% 0px;
+    text-align: center;
+}    
+    
+
+.controls{
+    /*background: grey;*/
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    vertical-align: middle;
+    position: relative;
+    display: table;
+    border: 5px solid white;
+
 }
 
-.pause {
-	display: none;
+.controls a{
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
 }
+    
+
+    
+.status > a:hover{
+    color: red;
+}
+
+
+.song_list > a:hover {
+    background-color: grey;
+    color: white;
+}
+
 
 .playing {
 	background-color: #E8E8E8;
 }
 
-
-
-/*CHARLOTTE STUFF*/
-
-#content {
-	padding: 40px 69px 50px 69px; overflow: hidden;
+.songname{
+    color: #ffffff;
 }
 
-	
-	#content p {
-		margin: 0 0 30px 0;
-         border-bottom: none;
-	}
 
-#content a {
-         border-bottom: none;
-	}
+<!--MEDIA QUERY STUFF-->
 
-		
-#content a:hover {
-         border-bottom: none;
-	}
+/*Medium screens*/
+@media only screen and (max-width : 500px), only screen and (max-device-width : 500px) {
 
+    .controls{
+        width: 100px;
+        height: 100px;
 
-	
-#content .portfolio-item {
-    padding: 7px 7px 7px 7px; background: #eee; text-align: center;
-	float: left; margin: 0px 0px 14px 7px;
+    }
+    
 }
-	#content .portfolio-item p.btn {
-		margin: 0;
-        padding: 20px 0 10px 0;
-	}
 
-	#content .portfolio-item p.btn a {
-		display: block; padding: 20px 0 0 0;
-		text-align: center;
-	}
+
+<!--MEDIA QUERY STUFF-->
