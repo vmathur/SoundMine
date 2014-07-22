@@ -8,30 +8,26 @@ var container = $('.container'),
 	track;
 
 // songs hashmap
-var songs = {};
+var tracks = {}, songs = {};
+tracks = {
+	lights: new Audio(),
+	daydreaming: new Audio(),
+	one_thing: new Audio()
+};
+
 songs['lights'] = { 
-	track: new Audio(),
 	artist: 'Ellie Goulding',
 	active: 1,
 	relaxed: 1,
 	lastPlayed: ""
 };
 songs['daydreaming'] = { 
-	track: new Audio(),
 	artist: 'Lupe Fiasco',
 	active: 1,
 	relaxed: 1,
 	lastPlayed: ""
 };
-// songs['hurricane'] = { 
-// 	track: new Audio(),
-// 	artist: 'MsMr',
-// 	active: 1,
-// 	relaxed: 1,
-// 	lastPlayed: ""
-// };
 songs['one_thing'] = { 
-	track: new Audio(),
 	artist: 'One Direction',
     active: 1,
 	relaxed: 1,
@@ -85,7 +81,7 @@ function initAudio(elem) {
 		stream.on('end', function() {
 		    var music = document.createElement("audio");
 		    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-		    track = songs[song].track;
+		    track = tracks[song];
 		    track.src = music.src;
 		    playSong();    	
 		});
@@ -225,10 +221,8 @@ function pauseSong() {
 	// if there is a track initialized that is possibly playing, pause it
 	if (track) track.pause();
 
-
 	// removing the current song in firebase
 	usersRef.child(_user.id).child('currentlyListening').set(null);
-		console.log('pause', track);
 
 	$(".pause").hide();
 	$(".playButton").show();
@@ -255,8 +249,6 @@ function nextSong() {
 	if (next.length == 0) {
 	    next = $('.song_list a:first-child');
 	}
-
-	console.log(next);
 
 	$('.song_list a.playing').removeClass('playing');
 	next.addClass('playing');
@@ -308,8 +300,6 @@ function changeScore(actionType) {
 		songs[song].active = songs[song].active - 1;
 	}
 
-	usersRef.child(_user.id).child('activell_songs').set(songs);
-
 	updatePlaylistRef();
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
@@ -320,7 +310,6 @@ function changeScore(actionType) {
 		createSuggestions(snapshot);
 	});
 
-	
 	relaxedPlaylistRef.on('value', function(snapshot){
 		snapshot = snapshot.val();
 		createSuggestions(snapshot);
@@ -330,16 +319,9 @@ function changeScore(actionType) {
 
 function createSuggestions(moodPlaylist){
 	//grab random 3 songs to display on change
-
 	//TODO: change userMood to be _currentMood
 	var userMood = 'active';
-	var suggestions = new Array();
 	console.log(moodPlaylist);
-	keys = Object.keys(moodPlaylist)
-	console.log(keys);
-	suggestions[0] = keys[0];
-	console.log(suggestions);
-
 }
 
 // Helper Functions
