@@ -23,6 +23,9 @@ songs['daydreaming'] = {
 	relaxed: 1,
 	lastPlayed: ""
 };
+
+$(".pause").hide();
+
 // songs['hurricane'] = { 
 // 	track: new Audio(),
 // 	artist: 'MsMr',
@@ -30,6 +33,7 @@ songs['daydreaming'] = {
 // 	relaxed: 1,
 // 	lastPlayed: ""
 // };
+
 songs['one_thing'] = { 
 	track: new Audio(),
 	artist: 'One Direction',
@@ -87,7 +91,7 @@ function initAudio(elem) {
 		    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
 		    track = songs[song].track;
 		    track.src = music.src;
-		    playSong();    	
+		    playSong();
 		});
 	});
 
@@ -281,7 +285,7 @@ function updatePlaylistRef() {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
-	usersRef.child(_user.id).child('all_songs').set(songs);
+	//usersRef.child(_user.id).child('all_songs').set(songs);
 }
 
 function changeScore(actionType) {
@@ -308,37 +312,67 @@ function changeScore(actionType) {
 		songs[song].active = songs[song].active - 1;
 	}
 
-	usersRef.child(_user.id).child('activell_songs').set(songs);
+	//usersRef.child(_user.id).child('activell_songs').set(songs);
 
 	updatePlaylistRef();
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
 
-	activePlaylistRef.on('value', function(snapshot){
-		snapshot = snapshot.val();
-		createSuggestions(snapshot);
+	activePlaylistRef.once('value', function(snapshot){
+		activeSnapshot = snapshot.val();
+		if (activeSnapshot) createSuggestions(activeSnapshot);
 	});
 
-	
-	relaxedPlaylistRef.on('value', function(snapshot){
-		snapshot = snapshot.val();
-		createSuggestions(snapshot);
+	//TODO: Activate relaxed playlist
+	/*
+	relaxedPlaylistRef.once('value', function(snapshot){
+		relaxedSnapshot = snapshot.val();
+		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
 	});
+	*/
 
 }
 
-function createSuggestions(moodPlaylist){
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+function createSuggestions(moodSnapshot){
 	//grab random 3 songs to display on change
 
 	//TODO: change userMood to be _currentMood
 	var userMood = 'active';
-	var suggestions = new Array();
-	console.log(moodPlaylist);
-	keys = Object.keys(moodPlaylist)
-	console.log(keys);
-	suggestions[0] = keys[0];
-	console.log(suggestions);
+
+	keys = Object.keys(moodSnapshot)
+	
+	// var numSuggestions = Object.size(keys);
+	// for (i=0; i<numSuggestions; i++) {
+	// 	console.log(keys[i]);
+	// }
+
+	console.log("Suggestions: " + keys);
+
+	displaySuggestions(keys);
+
+}
+
+function displaySuggestions(suggestionsArray) {
+
+	var arraySize = suggestionsArray.length;
+
+	properTitles = suggestionsArray;
+
+	//Capitalize all song titles
+	for (i=0; i<arraySize; i++) {
+		properTitles[i] = capitalize(properTitles[i]);
+	}
+
+	document.getElementsByClassName("recommendation_Box").innerHTML = "New text!";
 
 }
 
