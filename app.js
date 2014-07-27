@@ -60,6 +60,7 @@ app.post('/sensor',function(req,res){
     user = data.user;
 
     console.log(user+' is '+mood+' at '+ timeStamp);
+    res.send();
 });
 
 setPreviousMood(user,mood);
