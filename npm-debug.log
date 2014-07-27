@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 0 info it worked if it ends with ok
 1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
 2 info using npm@1.4.9
@@ -24,3 +25,5 @@
 15 error npm -v 1.4.9
 16 error code ELIFECYCLE
 17 verbose exit [ 1, true ]
+=======
+>>>>>>> 097e634ceb47d012d3f9ff1e5cde3210d0a45535

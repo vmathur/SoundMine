@@ -18,7 +18,7 @@ myRef = usersRef.child(user);
 
 var songMap = {
     'daydreaming':'/music/daydreaming.mp3',
-    'hurricane'  :'/music/hurricane.wav',
+    'one_thing'  :'/music/one_thing.mp3',
     'lights'     :'/music/lights.mp3'
 };
 
@@ -61,6 +61,7 @@ app.post('/sensor',function(req,res){
 
     console.log(user+' is '+mood+' at '+ timeStamp);
     res.send();
+    myRef.child('currentMood').set(mood);
 });
 
 setPreviousMood(user,mood);

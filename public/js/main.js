@@ -8,7 +8,13 @@ var container = $('.container'),
 	track;
 
 // songs hashmap
-var songs = {};
+var tracks = {}, songs = {};
+tracks = {
+	lights: new Audio(),
+	daydreaming: new Audio(),
+	one_thing: new Audio()
+};
+
 songs['lights'] = { 
 	artist: 'Ellie Goulding',
 	active: 1,
@@ -21,18 +27,14 @@ songs['daydreaming'] = {
 	relaxed: 1,
 	lastPlayed: ""
 };
-songs['hurricane'] = { 
-	artist: 'MsMr',
-	active: 1,
-	relaxed: 1,
-	lastPlayed: ""
-};
 songs['one_thing'] = { 
-	artist: 'MsMr',
+	artist: 'One Direction',
     active: 1,
 	relaxed: 1,
 	lastPlayed: ""
 };
+
+$("#pause").hide();
 
 // binary client 
 var client = new BinaryClient('ws://localhost:9000');
@@ -50,6 +52,8 @@ var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 		_user = user; //for reference in other places
 
 		manageConnection(user); //online status
+		activePlaylistRef = usersRef.child(_user.id).child('active');
+		relaxedPlaylistRef = usersRef.child(_user.id).child('relaxed');
 	}
 });
 
@@ -74,17 +78,31 @@ function initAudio(elem) {
 		var parts = [];
 		stream.on('data', function(data) {
 	    	parts.push(data);
-	  	});
-	  stream.on('end', function() {
-	  	var audio = new Audio(parts);
-	    var music = document.createElement("audio");
-	    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
-	    track = new Audio();
-	    track.src = music.src;
-	    playSong();        
-	  });
+		});
+		stream.on('end', function() {
+		    var music = document.createElement("audio");
+		    music.src=(window.URL || window.webkitURL).createObjectURL(new Blob(parts));
+		    //music.addEventListener('ended', function(){initAudio(nextSong());}, true);
+		    track = tracks[song];
+		    track.src = music.src;
+		    playSong();
+		});
 	});
 
+}
+
+
+var songList = $('.song_list');
+for (songRef in songs) {
+	songTitle = capitalize(songRef);
+	linkEl = document.createElement('a');
+	linkEl.className = 'play title';
+	linkEl.title =  songRef; 
+	linkEl.href = "";
+	text = document.createTextNode(songTitle + '-' + songs[songRef].artist);
+	linkEl.appendChild(text);
+	
+	songList.append(linkEl);
 }
 
 // function for when you click on play button or on a song url in the playlist
@@ -126,7 +144,7 @@ $('.playButton').on('click', function(evt) {
 
 })
 
-$('.pause').on('click', function(evt) {
+$('#pause').on('click', function(evt) {
 	evt.preventDefault();
 
 	pauseSong();
@@ -145,7 +163,6 @@ $('.fwd').on('click', function(evt) {
     var next = nextSong();
     // initialize the next song so we can go forward
     initAudio(next);
-
 });
 
 
@@ -195,19 +212,21 @@ function playSong(){
 
     // set the current song in firebase
     usersRef.child(_user.id).child('currentlyListening').set(song + ' - ' + songs[song].artist);
-
+    $('.songname').text(song + ' - ' + songs[song].artist);
 	$(".playButton").hide();
 	$(".pause").show();
+
 }
 
 function pauseSong() {
+
 	// if there is a track initialized that is possibly playing, pause it
 	if (track) track.pause();
 
 	// removing the current song in firebase
 	usersRef.child(_user.id).child('currentlyListening').set(null);
 
-	$(".pause").hide();
+	$("#pause").hide();
 	$(".playButton").show();
 }
 
@@ -256,7 +275,7 @@ function updatePlaylistRef() {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
-	usersRef.child(_user.id).child('all_songs').set(songs);
+	//usersRef.child(_user.id).child('all_songs').set(songs);
 }
 
 function changeScore(actionType) {
@@ -283,10 +302,95 @@ function changeScore(actionType) {
 		songs[song].active = songs[song].active - 1;
 	}
 
-	usersRef.child(_user.id).child('all_songs').set(songs);
+	//usersRef.child(_user.id).child('activell_songs').set(songs);
 
 	updatePlaylistRef();
 
+	usersRef.child(_user.id).child('active').set(activePlaylist);
+	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
+
+	activePlaylistRef.once('value', function(snapshot){
+		activeSnapshot = snapshot.val();
+		if (activeSnapshot) createSuggestions(activeSnapshot);
+	});
+
+	//TODO: Activate relaxed playlist
+	/*
+	relaxedPlaylistRef.once('value', function(snapshot){
+		relaxedSnapshot = snapshot.val();
+		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+	});
+	*/
+
 }
 
+Object.size = function(obj) {
+    var size = 0, key;
+    for (key in obj) {
+        if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+};
+
+function createSuggestions(moodSnapshot){
+	//TODO: change userMood to be _currentMood
+	var userMood = 'active';
+
+	keys = Object.keys(moodSnapshot)
+	
+	// var numSuggestions = Object.size(keys);
+	// for (i=0; i<numSuggestions; i++) {
+	// 	console.log(keys[i]);
+	// }
+
+	console.log("Suggestions: " + keys);
+
+	displaySuggestions(keys);
+
+}
+
+function displaySuggestions(suggestionsArray) {
+
+	var arraySize = suggestionsArray.length;
+
+	properTitles = suggestionsArray;
+
+	//Capitalize all song titles
+	for (i=0; i<arraySize; i++) {
+		properTitles[i] = capitalize(properTitles[i]);
+	}
+
+	//placeholder for changing HTML element on page
+	document.getElementsByClassName("recommendation_Box").innerHTML = "New text!";
+
+}
+
+// Helper Functions
+function capitalize(str){
+	str = str == null ? '' : String(str);
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+function onKeyDown(event){
+	switch (event.keyCode){
+		case 32: //spacebar                 
+            if (!$(track)[0].paused) {
+                pauseSong();
+            } else {
+                playSong();
+            }
+            break;
+        case 37: //leftarrow - back        
+    		pauseSong();
+    		initAudio(prevSong());
+            break;
+        case 39: //spacebar - fwd           
+            pauseSong();
+    		initAudio(nextSong());
+            break;
+     }
+  return false;
+}
+
+window.addEventListener("keydown", onKeyDown, false);
 auth.login('facebook');
