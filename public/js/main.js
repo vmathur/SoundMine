@@ -15,7 +15,24 @@ var tracks = {}, songs = {};
 tracks = {
 	lights: new Audio(),
 	daydreaming: new Audio(),
-	one_thing: new Audio()
+	one_thing: new Audio(),
+	the_children: new Audio(),
+	nightcall: new Audio(),
+	midnight_city: new Audio(),
+	marooned: new Audio(),
+	fix_you: new Audio(),
+	truly_madly_deeply: new Audio(),
+	three_little_birds: new Audio(),
+	merry_go_round_of_life: new Audio(),
+	faxing_berlin: new Audio(),
+	pjanoo: new Audio(),
+	lux_aeterna: new Audio(),
+	gimme_sympathy: new Audio(),
+	mr_brightside: new Audio(),
+	party_rock_anthem: new Audio(),
+	safe_in_sound: new Audio(),
+	numb: new Audio(),
+	crazy_in_love: new Audio()
 };
 
 songs['lights'] = { 
@@ -36,6 +53,115 @@ songs['one_thing'] = {
 	relaxed: 1,
 	lastPlayed: ""
 };
+songs['the_children'] = { 
+	artist: 'Ramin Djawadi',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+};
+songs['nightcall'] = { 
+	artist: 'Kavinsky',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+};
+songs['midnight_city'] = {
+	artist: 'M83',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['marooned'] = {
+	artist: 'Pink Floyd',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['crazy_in_love'] = {
+	artist: 'Beyonce (feat. Jay-Z)',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['fix_you'] = {
+	artist: 'Coldplay',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['truly_madly_deeply'] = {
+	artist: 'Savage Garden',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['three_little_birds'] = {
+	artist: 'Bob Marley',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['merry_go_round_of_life'] = {
+	artist: 'Joe Hisaishi',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['faxing_berlin'] = {
+	artist: 'Deadmau5',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['pjanoo'] = {
+	artist: 'Eric Pryde',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['lux_aeterna'] = {
+	artist: 'Clint Mansell',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['pjanoo'] = {
+	artist: 'Eric Pryde',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['gimme_sympathy'] = {
+	artist: 'Metric',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['mr_brightside'] = {
+	artist: 'The Killers',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['party_rock_anthem'] = {
+	artist: 'LMFAO',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['safe_in_sound'] = {
+	artist: 'Sub Focus',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+songs['numb'] = {
+	artist: 'Linkin Park',
+    active: 1,
+	relaxed: 1,
+	lastPlayed: ""
+}
+
 
 $("#pause").hide();
 
@@ -73,7 +199,7 @@ function initializeRefs() {
 
 	usersRef.child(_user.id).child('all_songs').on('value', function(snapshot) {
 		snapshot = snapshot.val();
-		if (typeof snapshot === 'object') {
+		if (typeof snapshot === 'object' && snapshot !== null) {
 			songs = snapshot;
 		}
 	});
@@ -380,7 +506,7 @@ function displaySuggestions(suggestionsArray) {
 // Helper Functions
 function capitalize(str){
 	str = str == null ? '' : String(str);
-	str = str.replace("_", " ");
+	str = str.replace("", " ");
 	strings = str.split(' ');
 	$(strings).each(function(i) {
 		strings[i] = strings[i].charAt(0).toUpperCase() + strings[i].slice(1);

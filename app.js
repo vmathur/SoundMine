@@ -12,14 +12,31 @@ var previousMoodMap = {};
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
-user = 10152128449356744,
+user = 10154295291765322,
 mood,
 myRef = usersRef.child(user);
 
 var songMap = {
-    'daydreaming':'/music/daydreaming.mp3',
-    'one_thing'  :'/music/one_thing.mp3',
-    'lights'     :'/music/lights.mp3'
+    'crazy_in_love':'/music/crazy_in_love.mp3', //energetic
+    'one_thing'  :'/music/one_thing.mp3', // energetic
+    'safe_in_sound'  : '/music/safe_in_sound.mp3', //energetic
+    'party_rock_anthem':'/music/party_rock_anthem.mp3', //energetic
+    'numb':"/music/numb.mp3", //energetic
+    'daydreaming':'/music/daydreaming.mp3', //active
+    'lights'     :'/music/lights.mp3', //active
+    'midnight_city':'/music/midnight_city.mp3', //active
+    'gimme_sympathy':'/music/gimme_sympathy.mp3',//active
+    'mr_brightside':'/music/mr_brightside.mp3',//active
+    'the_children':'/music/the_children.mp3', //focused
+    'nightcall'  :'/music/nightcall.mp3', //focused
+    'faxing_berlin'  :'/music/faxing_berlin.mp3', //focused
+    'pjanoo'    :'/music/pjanoo.mp3',//focused
+    'lux_aeterna'    :'/music/lux_aeterna.mp3',//focused
+    'marooned':'/music/marooned.mp3', //relaxed
+    'fix_you':'/music/fix_you.mp3',//relaxed
+    'truly_madly_deeply':'/music/truly_madly_deeply.mp3',//relaxed
+    'three_little_birds':'/music/three_little_birds.mp3',//relaxed
+    'merry_go_round_of_life':'/music/merry_go_round_of_life.mp3'//relaxed
 };
 
 
