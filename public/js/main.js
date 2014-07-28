@@ -106,6 +106,7 @@ function initAudio(elem) {
 		    //music.addEventListener('ended', function(){initAudio(nextSong());}, true);
 		    track = tracks[song];
 		    track.src = music.src;
+		    track.setAttribute("onended","initAudio(nextSong())");
 		    playSong();
 		});
 	});

@@ -28,6 +28,7 @@ var BinaryServer = require('binaryjs').BinaryServer;
 var bs = new BinaryServer({ port: 9000 });
 
 bs.on('connection', function (client) {
+
     client.on('stream', function (stream, songTitle) {
         console.log('requesting song: '+songTitle);
         var file = fs.createReadStream(__dirname + songMap[songTitle]);
