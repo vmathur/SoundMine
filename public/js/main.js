@@ -62,6 +62,10 @@ var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 		usersRef.child(_user.id).child('currentMood').on('value', function(snapshot) {
 			snapshot = snapshot.val()
 			_currentMood = snapshot;
+			if (_currentMood != null)	{
+				$('.suggestForMood').text('for your mood: ' + _currentMood);
+			}
+
 		});
 
 		activePlaylistRef.on('value', function(snapshot){
