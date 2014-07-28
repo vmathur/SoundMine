@@ -441,17 +441,25 @@ function nextSong() {
 }
 
 function updatePlaylistRef() {
-	activePlaylist = {}, relaxedPlaylist = {};
+	activePlaylist = {}, relaxedPlaylist = {}, focusedPlaylist = {}, energeticPlaylist = {};
 	for ( var songRef in songs ) {
 		if ( songs[songRef].active > 2) activePlaylist[songRef] = true;
 		else activePlaylist[songRef] = null;
 		
 		if ( songs[songRef].relaxed > 2) relaxedPlaylist[songRef] = true;
 		else relaxedPlaylist[songRef] = null;
+
+		if ( songs[songRef].focused > 2) focusedPlaylist[songRef] = true;
+		else focusedPlaylist[songRef] = null;
+
+		if ( songs[songRef].energetic > 2) energeticPlaylist[songRef] = true;
+		else energeticPlaylist[songRef] = null;
 	}
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
+	usersRef.child(_user.id).child('focused').set(focusedPlaylist);
+	usersRef.child(_user.id).child('energetic').set(energeticPlaylist);
 	usersRef.child(_user.id).child('all_songs').set(songs);
 }
 
@@ -460,7 +468,7 @@ function changeScore(actionType) {
 	//TODO: have a working currentMood
 	var curMood = _currentMood;
 
-	if (curMood && (curMood == 'active' || curMood == 'relaxed')) {
+	if (curMood && (curMood == 'active' || curMood == 'relaxed' || curMood == 'focused' || curMood == 'energetic')) {
 		if (actionType == 'likeOn') {
 			songs[song][curMood] = songs[song][curMood] + 5;
 		}
@@ -487,6 +495,8 @@ function changeScore(actionType) {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
+	usersRef.child(_user.id).child('focused').set(focusedPlaylist);
+	usersRef.child(_user.id).child('energetic').set(energeticPlaylist);
 }
 
 function createSuggestions(moodSnapshot){
