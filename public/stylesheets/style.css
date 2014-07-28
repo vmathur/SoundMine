@@ -96,12 +96,11 @@ h1 {
     display: table-cell;
     vertical-align: middle;
     text-align: center;
+    color: white;
 }
     
-
-    
-.status > a:hover{
-    color: red;
+.status > a{
+    color: white;
 }
 
 

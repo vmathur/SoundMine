@@ -55,32 +55,40 @@ var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 		_user = user; //for reference in other places
 
 		manageConnection(user); //online status
-		activePlaylistRef = usersRef.child(_user.id).child('active');
-		relaxedPlaylistRef = usersRef.child(_user.id).child('relaxed');
-
-
-		usersRef.child(_user.id).child('currentMood').on('value', function(snapshot) {
-			snapshot = snapshot.val()
-			_currentMood = snapshot;
-			if (_currentMood != null)	{
-				$('.suggestForMood').text('for your mood: ' + _currentMood);
-			}
-
-		});
-
-		activePlaylistRef.on('value', function(snapshot){
-			activeSnapshot = snapshot.val();
-			if (activeSnapshot) createSuggestions(activeSnapshot);
-		});
-
-		// 
-		relaxedPlaylistRef.on('value', function(snapshot){
-			relaxedSnapshot = snapshot.val();
-			if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
-		});
-
+		initializeRefs();
 	}
 });
+
+function initializeRefs() {
+	activePlaylistRef = usersRef.child(_user.id).child('active');
+	relaxedPlaylistRef = usersRef.child(_user.id).child('relaxed');
+
+	usersRef.child(_user.id).child('currentMood').on('value', function(snapshot) {
+		snapshot = snapshot.val()
+		_currentMood = snapshot;
+		if (_currentMood != null)	{
+			$('.suggestForMood').text('for your mood: ' + _currentMood);
+		}
+	});
+
+	usersRef.child(_user.id).child('all_songs').on('value', function(snapshot) {
+		snapshot = snapshot.val();
+		if (typeof snapshot === 'object') {
+			songs = snapshot;
+		}
+	});
+	
+	activePlaylistRef.on('value', function(snapshot){
+		activeSnapshot = snapshot.val();
+		if (activeSnapshot) createSuggestions(activeSnapshot);
+	});
+
+	// 
+	relaxedPlaylistRef.on('value', function(snapshot){
+		relaxedSnapshot = snapshot.val();
+		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+	});
+}
 
 //sets online status to true/false on connect/disconect
 function manageConnection(user) {
