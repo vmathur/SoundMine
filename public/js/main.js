@@ -129,6 +129,8 @@ songs['three_little_birds'] = {
 	artist: 'Bob Marley',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover:'http://www.justinguitar.com/images/titles/BS-101.jpg'
 }
@@ -154,6 +156,8 @@ songs['pjanoo'] = {
 	artist: 'Eric Pryde',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://images.junostatic.com/full/CS1500700-02A-BIG.jpg'
 }
