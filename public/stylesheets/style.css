@@ -3,6 +3,13 @@ body {
     background-color: #ffffff;
 }
 
+h1, h2, h3, h4, p {
+    font-family: 'Raleway';
+    font-weight: 200;
+    text-transform: uppercase;
+    color: #000;
+}
+
 a {
     text-decoration: none;
 }
@@ -17,7 +24,7 @@ a:hover {
     background-size: cover;
     position: relative;
     padding: 8% 0;
-    
+    margin-bottom: 0px;
 }
 
 
@@ -31,7 +38,7 @@ a:hover {
 
 
 .jumbotron a:hover{
-    color: grey;
+    text-decoration: underline;
 }
 
 
@@ -50,26 +57,63 @@ h1 {
 	margin: 10px;
 }
 
-.container {
-	text-align: center;
+.fa-15x {
+    font-size: 1.5em;
 }
 
+.container {
+	text-align: center;
+    padding: 0;
+}
+
+.main {
+    margin-right: 0;
+    padding-right: 0;
+}
 
 .recommendations{
-    text-align: right;
-    border: 1px solid #ccc;
-    padding: 13px;
-    color: grey;
-    background: rgba(0,0,0,0.1);
-   
+    border: 1px solid #aaa;
+    color: #aaa;
+    background: rgba(250,250,250,0.9);
+    text-align: center;
+}
+
+.recommendation_box > div  {
+    display: inline-block;
+    margin: 10px auto 10px;
+    border: 1px solid #aaa;
 }
 
 .recommendation_box > div > a {
     display: block;
+    padding: 13px;
+    background-color: white;
+    color: #000;
+}
+
+.suggestForMood {
+    color: #FBB13E;
+}
+
+.recommendation_box > div > a:hover {
+    text-decoration: underline;
+} 
+
+.album_cover {
+    width: 200px;
+    height: 200px;
+    background-color: rgba(0,0,0,1);
+}
+
+.album_cover:hover {
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0.8;
 }
 .song_list  {
     text-align: left;
     margin-bottom: 13px;
+    padding-left: 0;
+    margin-top: 15px;
 }
 
 .song_list > a {
@@ -77,7 +121,7 @@ h1 {
 	padding: 13px;
 	width: 100%;
 	border: 1px solid #ccc;
-    color: grey;
+    color: #000;
 }
 
 
@@ -96,22 +140,23 @@ h1 {
     
 
 .controls{
-    /*background: grey;*/
+    background-color: rgba(0,0,0,0.3);
     width: 200px;
     height: 200px;
     border-radius: 50%;
     vertical-align: middle;
     position: relative;
     display: table;
-    border: 5px solid white;
-
 }
 
 .controls a{
     display: table-cell;
     vertical-align: middle;
     text-align: center;
-    color: white;
+    color: #87CFC3;
+}
+.controls > a:hover {
+    color: #87CFC3;
 }
     
 .status > a{
@@ -120,8 +165,7 @@ h1 {
 
 
 .song_list > a:hover {
-    background-color: grey;
-    color: white;
+    text-decoration: underline;
 }
 
 

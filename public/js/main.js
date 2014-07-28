@@ -39,19 +39,22 @@ songs['lights'] = {
 	artist: 'Ellie Goulding',
 	active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://www.thesnipenews.com/thegutter/wp-content/uploads/2011/04/Ellie-Goulding-Lights-album-cover.jpg'
 };
 songs['daydreaming'] = {  		
 	artist: 'Lupe Fiasco',
 	active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: "http://upload.wikimedia.org/wikipedia/en/d/d0/Lupe_Fiasco_-_Daydreamin'.jpg"
 };
 songs['one_thing'] = { 
 	artist: 'One Direction',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: "http://upload.wikimedia.org/wikipedia/en/a/ae/One_Direction_-_One_Thing_Cover.jpg"
 };
 songs['the_children'] = { 
 	artist: 'Ramin Djawadi',
@@ -193,7 +196,9 @@ function initializeRefs() {
 		snapshot = snapshot.val()
 		_currentMood = snapshot;
 		if (_currentMood != null)	{
-			$('.suggestForMood').text('for your mood: ' + _currentMood);
+			$('.suggestForMood').text(_currentMood );
+		} else {
+			$('.suggestForMood').text('None Found');
 		}
 	});
 
@@ -255,14 +260,15 @@ function initAudio(elem) {
 var songList = $('.song_list');
 for (songRef in songs) {
 	songTitle = capitalize(songRef);
-	linkEl = document.createElement('a');
-	linkEl.className = 'play title';
-	linkEl.title =  songRef; 
-	linkEl.href = "";
-	text = document.createTextNode(songTitle + ' - ' + songs[songRef].artist);
-	linkEl.appendChild(text);
+	songLink = '<a class="play title" href="" title=' + songRef + '>' + songTitle + '<br><i>' +  songs[songRef].artist + '</i></a>';
+	// linkEl = document.createElement('a');
+	// linkEl.className = 'play title';
+	// linkEl.title =  songRef; 
+	// linkEl.href = "";
+	// text = document.createTextNode(songTitle + ' - ' + songs[songRef].artist);
+	// linkEl.appendChild(text);
 	
-	songList.append(linkEl);
+	songList.append(songLink);
 }
 
 // function for when you click on play button or on a song url in the playlist
@@ -464,8 +470,6 @@ function changeScore(actionType) {
 		}
 	}
 
-	
-
 	//usersRef.child(_user.id).child('activell_songs').set(songs);
 
 	updatePlaylistRef();
@@ -487,20 +491,20 @@ function createSuggestions(moodSnapshot){
 }
 
 function displaySuggestions(suggestionsArray) {
-	var recommendationList = $('.recommendation_box'), div = document.createElement('div');
+	var recommendationList = $('.recommendation_box'), newDivs = [];
 
 	for (i = 0; i < suggestionsArray.length; i++ ) {
 		title =  suggestionsArray[i];
-		suggestionEl = document.createElement('a');
-		suggestionEl.className = 'play title';
-		suggestionEl.title =  title; 
-		suggestionEl.href = " ";
-		text = document.createTextNode(capitalize(title) + ' - ' + songs[title].artist);
-		suggestionEl.appendChild(text);
-		div.appendChild(suggestionEl);
+		recoDiv = '<div><img class="album_cover" src="' + songs[title].cover + '"></img><a class="play title" href="" title=' + title + '>' + capitalize(title) + '<br><i>' +  songs[title].artist + '</i></a></div>';
+		// suggestionEl = document.createElement('a');
+		// suggestionEl.className = 'play title';
+		// suggestionEl.title =  title; 
+		// suggestionEl.href = " ";
+		// text = document.createTextNode(capitalize(title) + ' - ' + songs[title].artist);
+		// suggestionEl.appendChild(text);
+		newDivs.push(recoDiv);
 	}
-
-	recommendationList.html(div);
+	recommendationList.html(newDivs);
 }
 
 // Helper Functions
