@@ -4,7 +4,6 @@ body {
 }
 
 a {
-  color: white;
     text-decoration: none;
 }
 
@@ -48,10 +47,12 @@ h1 {
 
 .recommendations{
     text-align: right;
-    background-color: #e8e7e4;
     
 }
 
+.recommendation_box > div > a {
+    display: block;
+}
 .song_list  {
     text-align: left;
 }
@@ -73,7 +74,7 @@ h1 {
 	width: 100%;
 	border-top: 1px solid #ccc;
     color: grey;
-    background: grey;
+    background: rgba(0,0,0,0.4);
     padding: 0.2% 0px;
     text-align: center;
 }    

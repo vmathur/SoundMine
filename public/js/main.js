@@ -7,6 +7,9 @@ var container = $('.container'),
 	song,
 	track;
 
+// firebase refs
+var myRef;
+
 // songs hashmap
 var tracks = {}, songs = {};
 tracks = {
@@ -21,7 +24,7 @@ songs['lights'] = {
 	relaxed: 1,
 	lastPlayed: ""
 };
-songs['daydreaming'] = { 
+songs['daydreaming'] = {  		
 	artist: 'Lupe Fiasco',
 	active: 1,
 	relaxed: 1,
@@ -54,6 +57,24 @@ var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 		manageConnection(user); //online status
 		activePlaylistRef = usersRef.child(_user.id).child('active');
 		relaxedPlaylistRef = usersRef.child(_user.id).child('relaxed');
+
+
+		usersRef.child(_user.id).child('currentMood').on('value', function(snapshot) {
+			snapshot = snapshot.val()
+			_currentMood = snapshot;
+		});
+
+		activePlaylistRef.on('value', function(snapshot){
+			activeSnapshot = snapshot.val();
+			if (activeSnapshot) createSuggestions(activeSnapshot);
+		});
+
+		// 
+		relaxedPlaylistRef.on('value', function(snapshot){
+			relaxedSnapshot = snapshot.val();
+			if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+		});
+
 	}
 });
 
@@ -99,7 +120,7 @@ for (songRef in songs) {
 	linkEl.className = 'play title';
 	linkEl.title =  songRef; 
 	linkEl.href = "";
-	text = document.createTextNode(songTitle + '-' + songs[songRef].artist);
+	text = document.createTextNode(songTitle + ' - ' + songs[songRef].artist);
 	linkEl.appendChild(text);
 	
 	songList.append(linkEl);
@@ -212,7 +233,7 @@ function playSong(){
 
     // set the current song in firebase
     usersRef.child(_user.id).child('currentlyListening').set(song + ' - ' + songs[song].artist);
-    $('.songname').text(song + ' - ' + songs[song].artist);
+    $('.songname').text(capitalize(song) + ' - ' + songs[song].artist);
 	$(".playButton").hide();
 	$(".pause").show();
 
@@ -275,7 +296,7 @@ function updatePlaylistRef() {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
-	//usersRef.child(_user.id).child('all_songs').set(songs);
+	usersRef.child(_user.id).child('all_songs').set(songs);
 }
 
 function changeScore(actionType) {
@@ -283,24 +304,28 @@ function changeScore(actionType) {
 	//TODO: have a working currentMood
 	var curMood = _currentMood;
 
-	if (actionType == 'likeOn') {
-		songs[song].active = songs[song].active + 5;
+	if (curMood && (curMood == 'active' || curMood == 'relaxed')) {
+		if (actionType == 'likeOn') {
+			songs[song][curMood] = songs[song][curMood] + 5;
+		}
+		if (actionType == 'likeOff') {
+			songs[song][curMood] = songs[song][curMood] - 5;
+		}
+		else if (actionType == 'dislike') {
+			songs[song][curMood] = songs[song][curMood] - 5;
+		}
+		else if (actionType == 'play') {
+			songs[song][curMood] = songs[song][curMood] + 1;
+		}
+		else if (actionType == 'playButton') {
+			songs[song][curMood] = songs[song][curMood] + 1;
+		}
+		else if (actionType == 'skip') {
+			songs[song][curMood] = songs[song][curMood] - 1;
+		}
 	}
-	if (actionType == 'likeOff') {
-		songs[song].active = songs[song].active - 5;
-	}
-	else if (actionType == 'dislike') {
-		songs[song].active = songs[song].active - 5;
-	}
-	else if (actionType == 'play') {
-		songs[song].active = songs[song].active + 1;
-	}
-	else if (actionType == 'playButton') {
-		songs[song].active = songs[song].active + 1;
-	}
-	else if (actionType == 'skip') {
-		songs[song].active = songs[song].active - 1;
-	}
+
+	
 
 	//usersRef.child(_user.id).child('activell_songs').set(songs);
 
@@ -308,41 +333,14 @@ function changeScore(actionType) {
 
 	usersRef.child(_user.id).child('active').set(activePlaylist);
 	usersRef.child(_user.id).child('relaxed').set(relaxedPlaylist);
-
-	activePlaylistRef.once('value', function(snapshot){
-		activeSnapshot = snapshot.val();
-		if (activeSnapshot) createSuggestions(activeSnapshot);
-	});
-
-	//TODO: Activate relaxed playlist
-	/*
-	relaxedPlaylistRef.once('value', function(snapshot){
-		relaxedSnapshot = snapshot.val();
-		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
-	});
-	*/
-
 }
-
-Object.size = function(obj) {
-    var size = 0, key;
-    for (key in obj) {
-        if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-};
 
 function createSuggestions(moodSnapshot){
 	//TODO: change userMood to be _currentMood
-	var userMood = 'active';
+	var userMood = _currentMood;
 
 	keys = Object.keys(moodSnapshot)
 	
-	// var numSuggestions = Object.size(keys);
-	// for (i=0; i<numSuggestions; i++) {
-	// 	console.log(keys[i]);
-	// }
-
 	console.log("Suggestions: " + keys);
 
 	displaySuggestions(keys);
@@ -350,25 +348,31 @@ function createSuggestions(moodSnapshot){
 }
 
 function displaySuggestions(suggestionsArray) {
+	var recommendationList = $('.recommendation_box'), div = document.createElement('div');
 
-	var arraySize = suggestionsArray.length;
-
-	properTitles = suggestionsArray;
-
-	//Capitalize all song titles
-	for (i=0; i<arraySize; i++) {
-		properTitles[i] = capitalize(properTitles[i]);
+	for (i = 0; i < suggestionsArray.length; i++ ) {
+		title =  suggestionsArray[i];
+		suggestionEl = document.createElement('a');
+		suggestionEl.className = 'play title';
+		suggestionEl.title =  title; 
+		suggestionEl.href = " ";
+		text = document.createTextNode(capitalize(title) + ' - ' + songs[title].artist);
+		suggestionEl.appendChild(text);
+		div.appendChild(suggestionEl);
 	}
 
-	//placeholder for changing HTML element on page
-	document.getElementsByClassName("recommendation_Box").innerHTML = "New text!";
-
+	recommendationList.html(div);
 }
 
 // Helper Functions
 function capitalize(str){
 	str = str == null ? '' : String(str);
-	return str.charAt(0).toUpperCase() + str.slice(1);
+	str = str.replace("_", " ");
+	strings = str.split(' ');
+	$(strings).each(function(i) {
+		strings[i] = strings[i].charAt(0).toUpperCase() + strings[i].slice(1);
+	});
+	return 	strings.join(' ');
 }
 
 function onKeyDown(event){
