@@ -80,7 +80,7 @@ app.post('/sensor',function(req,res){
 
     console.log(data.user+' is '+mood+' at '+ timeStamp);
     res.send();
-    myRef.child(101525530480344565).child('currentMood').set(mood)
+    myRef.child('currentMood').set(mood);
 });
 
 myRef.on('value', function(snapshot){
