@@ -246,6 +246,27 @@ function initializeRefs() {
 		_currentMood = snapshot;
 		if (_currentMood != null)	{
 			$('.suggestForMood').text(_currentMood );
+
+			activePlaylistRef.once('value', function(snapshot){
+				activeSnapshot = snapshot.val();
+				if (activeSnapshot) createSuggestions(activeSnapshot, snapshot.name());
+			});
+
+			relaxedPlaylistRef.once('value', function(snapshot){
+				relaxedSnapshot = snapshot.val();
+				if (relaxedSnapshot) createSuggestions(relaxedSnapshot, snapshot.name());
+			});
+
+			focusedPlaylistRef.once('value', function(snapshot){
+				focusedSnapshot = snapshot.val();
+				if (focusedSnapshot) createSuggestions(focusedSnapshot, snapshot.name());
+			});
+
+			energeticPlaylistRef.once('value', function(snapshot){
+				energeticSnapshot = snapshot.val();
+				if (energeticSnapshot) createSuggestions(energeticSnapshot, snapshot.name());
+			});
+
 		} else {
 			$('.suggestForMood').text('None Found');
 		}
@@ -258,25 +279,7 @@ function initializeRefs() {
 		}
 	});
 	
-	activePlaylistRef.once('value', function(snapshot){
-		activeSnapshot = snapshot.val();
-		if (activeSnapshot) createSuggestions(activeSnapshot, snapshot.name());
-	});
-
-	relaxedPlaylistRef.once('value', function(snapshot){
-		relaxedSnapshot = snapshot.val();
-		if (relaxedSnapshot) createSuggestions(relaxedSnapshot, snapshot.name());
-	});
-
-	focusedPlaylistRef.once('value', function(snapshot){
-		focusedSnapshot = snapshot.val();
-		if (focusedSnapshot) createSuggestions(focusedSnapshot, snapshot.name());
-	});
-
-	energeticPlaylistRef.once('value', function(snapshot){
-		energeticSnapshot = snapshot.val();
-		if (energeticSnapshot) createSuggestions(energeticSnapshot, snapshot.name());
-	});
+	
 
 }
 
