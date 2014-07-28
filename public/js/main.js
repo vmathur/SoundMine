@@ -269,13 +269,13 @@ function initializeRefs() {
 	});
 
 	focusedPlaylistRef.on('value', function(snapshot){
-		relaxedSnapshot = snapshot.val();
-		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+		focusedSnapshot = snapshot.val();
+		if (focusedSnapshot) createSuggestions(focusedSnapshot);
 	});
 
 	energeticPlaylistRef.on('value', function(snapshot){
-		relaxedSnapshot = snapshot.val();
-		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+		energeticSnapshot = snapshot.val();
+		if (energeticSnapshot) createSuggestions(energeticSnapshot);
 	});
 
 }

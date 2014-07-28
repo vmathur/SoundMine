@@ -12,7 +12,7 @@ var previousMoodMap = {};
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
-user = 10152553048034161,
+user = "10154397986135691",
 mood,
 myRef = usersRef.child(user);
 
