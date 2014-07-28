@@ -12,9 +12,10 @@ var previousMoodMap = {};
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
-user = "10154397986135691",
+user = '10152128449356744',
 mood,
-myRef = usersRef.child(user);
+myRef = usersRef.child(user),
+moodRef = usersRef.child(user).child('currentMood');
 
 var songMap = {
     'crazy_in_love':'/music/crazy_in_love.mp3', //energetic
@@ -77,19 +78,16 @@ app.post('/sensor',function(req,res){
     timeStamp = data.time;
     user = data.user;
 
-    console.log(user+' is '+mood+' at '+ timeStamp);
+    console.log(data.user+' is '+mood+' at '+ timeStamp);
     res.send();
-    myRef.child('currentMood').set(mood);
+    usersRef.child(101525530480344565).child('currentMood').set(mood)
 });
-
-setPreviousMood(user,mood);
 
 myRef.on('value', function(snapshot){
     snapshot = snapshot.val();
     previousMood = mood;
     mood = snapshot.currentMood;
     currentSong = snapshot.currentlyListening;
-    //setPreviousMood(mood);
 });
 
 function getPreviousMood(user){
@@ -98,10 +96,6 @@ function getPreviousMood(user){
     //var mood = previousMoodMap[user]
 
     return mood;
-}
-
-function setPreviousMood(user,mood){
-    myRef.child('currentMood').set('relaxed');
 }
 
 //DBs needed
@@ -117,7 +111,5 @@ app.use(function(req, res, next) {
     err.status = 404;
     next(err);
 });
-
-setPreviousMood(user,mood);
 
 module.exports = app;

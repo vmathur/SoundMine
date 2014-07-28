@@ -319,7 +319,7 @@ function initAudio(elem) {
 var songList = $('.song_list');
 for (songRef in songs) {
 	songTitle = capitalize(songRef);
-	songLink = '<a class="play title" href="" title=' + songRef + '>' + songTitle + '<br><i>' +  songs[songRef].artist + '</i></a>';
+	songLink = '<a class="play ' + songRef + '" href="" title=' + songRef + '>' + songTitle + '<br><i>' +  songs[songRef].artist + '</i></a>';
 	// linkEl = document.createElement('a');
 	// linkEl.className = 'play title';
 	// linkEl.title =  songRef; 
@@ -331,7 +331,7 @@ for (songRef in songs) {
 }
 
 // function for when you click on play button or on a song url in the playlist
-$('.play').on('click', function(evt){
+$(document.body).on('click', '.play', function(evt){
 	evt.preventDefault();
 	var _this = this;
 
@@ -343,9 +343,11 @@ $('.play').on('click', function(evt){
 
 	// remove previous song's 'playing' class
 	$('.song_list a.playing').removeClass('playing');
+
+	selector = '.' + evt.target.title;
 	
 	// now that we have a song, let's play it
-	$(this).addClass('playing');
+	$(selector).addClass('playing');
 
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
@@ -571,13 +573,7 @@ function displaySuggestions(suggestionsArray) {
 
 	for (i = 0; (i < suggestionsArray.length) && (i < 4); i++ ) {
 		title =  suggestionsArray[i];
-		recoDiv = '<div><img class="album_cover" src="' + songs[title].cover + '"></img><a class="play title" href="" title=' + title + '>' + capitalize(title) + '<br><i>' +  songs[title].artist + '</i></a></div>';
-		// suggestionEl = document.createElement('a');
-		// suggestionEl.className = 'play title';
-		// suggestionEl.title =  title; 
-		// suggestionEl.href = " ";
-		// text = document.createTextNode(capitalize(title) + ' - ' + songs[title].artist);
-		// suggestionEl.appendChild(text);
+		recoDiv = '<div><img class="album_cover" src="' + songs[title].cover + '"></img><a class="play ' + title + '" href="" title=' + title + '>' + capitalize(title) + '<br><i title=' + title + '>' +  songs[title].artist + '</i></a></div>';
 		newDivs.push(recoDiv);
 	}
 	recommendationList.html(newDivs);

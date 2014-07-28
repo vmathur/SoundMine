@@ -126,6 +126,10 @@ h1 {
     color: #000;
 }
 
+.song_list > a:active {
+    font-weight: 400;
+}
+
 
 .status{
     position: absolute; 
@@ -183,6 +187,10 @@ h1 {
     outline: 0;
 }
 
+i {
+    cursor: default;
+    clickable
+}
 
 <!--MEDIA QUERY STUFF-->
 
