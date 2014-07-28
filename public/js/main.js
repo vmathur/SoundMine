@@ -534,11 +534,13 @@ function updatePlaylistRef() {
 	usersRef.child(_user.id).child('focused').set(focusedPlaylist);
 	usersRef.child(_user.id).child('energetic').set(energeticPlaylist);
 	usersRef.child(_user.id).child('all_songs').set(songs);
+
+	//TODO: only call this when mood playlists change or mood changes -- updates the shown recommendations
+	initializeRefs();
 }
 
 function changeScore(actionType) {
 
-	//TODO: have a working currentMood
 	var curMood = _currentMood;
 
 	if (curMood && (curMood == 'active' || curMood == 'relaxed' || curMood == 'focused' || curMood == 'energetic')) {
