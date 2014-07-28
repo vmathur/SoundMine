@@ -309,12 +309,28 @@ function initAudio(elem) {
 		    track = tracks[song];
 		    track.src = music.src;
 		    track.setAttribute("onended","initAudio(nextSong())");
+		    track.addEventListener('timeupdate', function() {
+		    	time = Math.floor(track.currentTime);
+		    	mins = Math.floor(time/60);
+		    	seconds = time%60;
+		    	if (seconds < 10 ) {
+		    		seconds = '0' + seconds;
+		    	}
+		    	formattedTime = (mins + ':' + seconds);
+		    	$('.timer').html(formattedTime);
+		    	updateDurationBar(track.duration, track.currentTime);
+		    });
 		    playSong();
 		});
 	});
 
-}
+}	
 
+function updateDurationBar(duration, currentTime) { 
+	percentage = (currentTime/duration)*100;
+	percentage = percentage.toString() + '%';
+	$('.duration_bar').css('width', percentage);
+}
 
 var songList = $('.song_list');
 for (songRef in songs) {

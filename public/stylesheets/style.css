@@ -23,7 +23,7 @@ a:hover {
     background-position: right top;
     background-size: cover;
     position: relative;
-    padding: 8% 0;
+    padding: 5% 0;
     margin-bottom: 0px;
 }
 
@@ -137,13 +137,22 @@ h1 {
     left 0;
     display: center;
 	width: 100%;
-	border-top: 1px solid #ccc;
     color: grey;
     background: rgba(0,0,0,0.4);
-    padding: 0.2% 0px;
     text-align: center;
 }    
-    
+
+.timer {
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+}
+
+.duration_bar {
+    height: 3px;
+    width: 0%;
+    background-color: #87CFC3;
+}
 
 .controls{
     background-color: rgba(0,0,0,0.3);
