@@ -39,6 +39,8 @@ songs['lights'] = {
 	artist: 'Ellie Goulding',
 	active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://www.thesnipenews.com/thegutter/wp-content/uploads/2011/04/Ellie-Goulding-Lights-album-cover.jpg'
 };
@@ -46,6 +48,8 @@ songs['daydreaming'] = {
 	artist: 'Lupe Fiasco',
 	active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: "http://upload.wikimedia.org/wikipedia/en/d/d0/Lupe_Fiasco_-_Daydreamin'.jpg"
 };
@@ -53,6 +57,8 @@ songs['one_thing'] = {
 	artist: 'One Direction',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: "http://upload.wikimedia.org/wikipedia/en/a/ae/One_Direction_-_One_Thing_Cover.jpg"
 };
@@ -60,6 +66,8 @@ songs['the_children'] = {
 	artist: 'Ramin Djawadi',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://alexdang.info/wp-content/uploads/2014/06/Ramin-Djawadi-Game-of-Thrones-Season-4.jpg'
 };
@@ -67,6 +75,8 @@ songs['nightcall'] = {
 	artist: 'Kavinsky',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://tempoohlala.files.wordpress.com/2010/09/front-kavinsky-nightcall-1600x1600.jpg'
 };
@@ -74,6 +84,8 @@ songs['midnight_city'] = {
 	artist: 'M83',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://www.grimygoods.com/wp-content/uploads/2011/10/m83-hurry-up-were-dreaming-album-cover-photos.jpg'
 }
@@ -81,6 +93,8 @@ songs['marooned'] = {
 	artist: 'Pink Floyd',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://0.tqn.com/d/classicrock/1/S/m/S/pinkfloyd_divisionbell.jpg'
 }
@@ -88,6 +102,8 @@ songs['crazy_in_love'] = {
 	artist: 'Beyonce (feat. Jay-Z)',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://upload.wikimedia.org/wikipedia/en/2/29/Beyonce_-_Crazy_In_Love_single_cover.jpg'
 }
@@ -95,6 +111,8 @@ songs['fix_you'] = {
 	artist: 'Coldplay',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover:'http://sites.psu.edu/waschenko/wp-content/uploads/sites/432/2012/12/art_fixyou.jpg'
 }
@@ -102,6 +120,8 @@ songs['truly_madly_deeply'] = {
 	artist: 'Savage Garden',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover:'http://cfile3.uf.tistory.com/image/15775A4D4F4F7CD521201D'
 }
@@ -116,6 +136,8 @@ songs['merry_go_round_of_life'] = {
 	artist: 'Joe Hisaishi',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover:"http://upload.wikimedia.org/wikipedia/en/c/c9/Merry_go_'round.jpg"
 }
@@ -123,6 +145,8 @@ songs['faxing_berlin'] = {
 	artist: 'Deadmau5',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover:'http://images.junostatic.com/full/CS1358203-02A-BIG.jpg'
 }
@@ -137,6 +161,8 @@ songs['lux_aeterna'] = {
 	artist: 'Clint Mansell',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://www.peteranglea.com/wp-content/uploads/2009/05/pic2.jpg'
 }
@@ -144,6 +170,8 @@ songs['gimme_sympathy'] = {
 	artist: 'Metric',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover:'http://musictrajectory.com/wp-content/uploads/2012/04/metric-fantasies-album-cover.jpg'
 }
@@ -151,6 +179,8 @@ songs['mr_brightside'] = {
 	artist: 'The Killers',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: ' http://assets-s3.rollingstone.com/assets/images/list/c3ff6f79b73f01fb013843f7fdad3bb560fcff7d.jpg'
 }
@@ -158,6 +188,8 @@ songs['party_rock_anthem'] = {
 	artist: 'LMFAO',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://upload.wikimedia.org/wikipedia/en/a/a2/Party_Rock_Anthem_(feat._Lauren_Bennet_%26_GoonRock)_-_Single.jpeg'
 }
@@ -165,6 +197,8 @@ songs['safe_in_sound'] = {
 	artist: 'Sub Focus',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover:'http://upload.wikimedia.org/wikipedia/en/e/ea/Torus_sub_focus_album_cover.jpg'
 }
@@ -172,6 +206,8 @@ songs['numb'] = {
 	artist: 'Linkin Park',
     active: 1,
 	relaxed: 1,
+	focused: 1,
+	energetic: 1,
 	lastPlayed: "",
 	cover: 'http://en.wikipedia.org/wiki/Meteora_(album)#mediaviewer/File:MeteoraLP.jpg'
 }
@@ -202,6 +238,8 @@ var auth = new FirebaseSimpleLogin(appRef, function(error, user) {
 function initializeRefs() {
 	activePlaylistRef = usersRef.child(_user.id).child('active');
 	relaxedPlaylistRef = usersRef.child(_user.id).child('relaxed');
+	focusedPlaylistRef = usersRef.child(_user.id).child('focused');
+	energeticPlaylistRef = usersRef.child(_user.id).child('energetic');
 
 	usersRef.child(_user.id).child('currentMood').on('value', function(snapshot) {
 		snapshot = snapshot.val()
@@ -225,11 +263,21 @@ function initializeRefs() {
 		if (activeSnapshot) createSuggestions(activeSnapshot);
 	});
 
-	// 
 	relaxedPlaylistRef.on('value', function(snapshot){
 		relaxedSnapshot = snapshot.val();
 		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
 	});
+
+	focusedPlaylistRef.on('value', function(snapshot){
+		relaxedSnapshot = snapshot.val();
+		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+	});
+
+	energeticPlaylistRef.on('value', function(snapshot){
+		relaxedSnapshot = snapshot.val();
+		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+	});
+
 }
 
 //sets online status to true/false on connect/disconect
