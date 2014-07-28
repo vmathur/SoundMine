@@ -12,7 +12,7 @@ var previousMoodMap = {};
 var Firebase = require('firebase');
 var appRef = new Firebase("https://shining-fire-9992.firebaseio.com");
 var usersRef = appRef.child("user_list"),
-user = '10152128449356744',
+user = '10154397986135691',
 mood,
 myRef = usersRef.child(user),
 moodRef = usersRef.child(user).child('currentMood');
@@ -80,7 +80,7 @@ app.post('/sensor',function(req,res){
 
     console.log(data.user+' is '+mood+' at '+ timeStamp);
     res.send();
-    usersRef.child(101525530480344565).child('currentMood').set(mood)
+    myRef.child(101525530480344565).child('currentMood').set(mood)
 });
 
 myRef.on('value', function(snapshot){

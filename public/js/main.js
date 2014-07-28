@@ -258,24 +258,24 @@ function initializeRefs() {
 		}
 	});
 	
-	activePlaylistRef.on('value', function(snapshot){
+	activePlaylistRef.once('value', function(snapshot){
 		activeSnapshot = snapshot.val();
-		if (activeSnapshot) createSuggestions(activeSnapshot);
+		if (activeSnapshot) createSuggestions(activeSnapshot, snapshot.name());
 	});
 
-	relaxedPlaylistRef.on('value', function(snapshot){
+	relaxedPlaylistRef.once('value', function(snapshot){
 		relaxedSnapshot = snapshot.val();
-		if (relaxedSnapshot) createSuggestions(relaxedSnapshot);
+		if (relaxedSnapshot) createSuggestions(relaxedSnapshot, snapshot.name());
 	});
 
-	focusedPlaylistRef.on('value', function(snapshot){
+	focusedPlaylistRef.once('value', function(snapshot){
 		focusedSnapshot = snapshot.val();
-		if (focusedSnapshot) createSuggestions(focusedSnapshot);
+		if (focusedSnapshot) createSuggestions(focusedSnapshot, snapshot.name());
 	});
 
-	energeticPlaylistRef.on('value', function(snapshot){
+	energeticPlaylistRef.once('value', function(snapshot){
 		energeticSnapshot = snapshot.val();
-		if (energeticSnapshot) createSuggestions(energeticSnapshot);
+		if (energeticSnapshot) createSuggestions(energeticSnapshot, snapshot.name());
 	});
 
 }
@@ -572,15 +572,16 @@ function changeScore(actionType) {
 	usersRef.child(_user.id).child('energetic').set(energeticPlaylist);
 }
 
-function createSuggestions(moodSnapshot){
-	//TODO: change userMood to be _currentMood
+function createSuggestions(moodSnapshot, name){
+
 	var userMood = _currentMood;
 
 	keys = Object.keys(moodSnapshot)
-	
-	console.log("Suggestions: " + keys);
 
-	displaySuggestions(keys);
+	if (_currentMood == name) {
+		console.log("Suggestions: " + keys);
+		displaySuggestions(keys);
+	}
 
 }
 
