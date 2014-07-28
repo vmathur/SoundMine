@@ -60,109 +60,120 @@ songs['the_children'] = {
 	artist: 'Ramin Djawadi',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://alexdang.info/wp-content/uploads/2014/06/Ramin-Djawadi-Game-of-Thrones-Season-4.jpg'
 };
 songs['nightcall'] = { 
 	artist: 'Kavinsky',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://tempoohlala.files.wordpress.com/2010/09/front-kavinsky-nightcall-1600x1600.jpg'
 };
 songs['midnight_city'] = {
 	artist: 'M83',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://www.grimygoods.com/wp-content/uploads/2011/10/m83-hurry-up-were-dreaming-album-cover-photos.jpg'
 }
 songs['marooned'] = {
 	artist: 'Pink Floyd',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://0.tqn.com/d/classicrock/1/S/m/S/pinkfloyd_divisionbell.jpg'
 }
 songs['crazy_in_love'] = {
 	artist: 'Beyonce (feat. Jay-Z)',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://upload.wikimedia.org/wikipedia/en/2/29/Beyonce_-_Crazy_In_Love_single_cover.jpg'
 }
 songs['fix_you'] = {
 	artist: 'Coldplay',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover:'http://sites.psu.edu/waschenko/wp-content/uploads/sites/432/2012/12/art_fixyou.jpg'
 }
 songs['truly_madly_deeply'] = {
 	artist: 'Savage Garden',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover:'http://cfile3.uf.tistory.com/image/15775A4D4F4F7CD521201D'
 }
 songs['three_little_birds'] = {
 	artist: 'Bob Marley',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover:'http://www.justinguitar.com/images/titles/BS-101.jpg'
 }
 songs['merry_go_round_of_life'] = {
 	artist: 'Joe Hisaishi',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover:"http://upload.wikimedia.org/wikipedia/en/c/c9/Merry_go_'round.jpg"
 }
 songs['faxing_berlin'] = {
 	artist: 'Deadmau5',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover:'http://images.junostatic.com/full/CS1358203-02A-BIG.jpg'
 }
 songs['pjanoo'] = {
 	artist: 'Eric Pryde',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://images.junostatic.com/full/CS1500700-02A-BIG.jpg'
 }
 songs['lux_aeterna'] = {
 	artist: 'Clint Mansell',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
-}
-songs['pjanoo'] = {
-	artist: 'Eric Pryde',
-    active: 1,
-	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://www.peteranglea.com/wp-content/uploads/2009/05/pic2.jpg'
 }
 songs['gimme_sympathy'] = {
 	artist: 'Metric',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover:'http://musictrajectory.com/wp-content/uploads/2012/04/metric-fantasies-album-cover.jpg'
 }
 songs['mr_brightside'] = {
 	artist: 'The Killers',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: ' http://assets-s3.rollingstone.com/assets/images/list/c3ff6f79b73f01fb013843f7fdad3bb560fcff7d.jpg'
 }
 songs['party_rock_anthem'] = {
 	artist: 'LMFAO',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://upload.wikimedia.org/wikipedia/en/a/a2/Party_Rock_Anthem_(feat._Lauren_Bennet_%26_GoonRock)_-_Single.jpeg'
 }
 songs['safe_in_sound'] = {
 	artist: 'Sub Focus',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover:'http://upload.wikimedia.org/wikipedia/en/e/ea/Torus_sub_focus_album_cover.jpg'
 }
 songs['numb'] = {
 	artist: 'Linkin Park',
     active: 1,
 	relaxed: 1,
-	lastPlayed: ""
+	lastPlayed: "",
+	cover: 'http://en.wikipedia.org/wiki/Meteora_(album)#mediaviewer/File:MeteoraLP.jpg'
 }
 
 
@@ -510,8 +521,7 @@ function displaySuggestions(suggestionsArray) {
 // Helper Functions
 function capitalize(str){
 	str = str == null ? '' : String(str);
-	str = str.replace("", " ");
-	strings = str.split(' ');
+	strings = str.split('_');
 	$(strings).each(function(i) {
 		strings[i] = strings[i].charAt(0).toUpperCase() + strings[i].slice(1);
 	});
