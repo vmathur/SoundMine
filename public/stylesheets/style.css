@@ -12,13 +12,23 @@ a:hover {
 	}
 
 .jumbotron{
-    background-image: url(../images/homebg.jpg) ;
+    background-image: url(../images/13.jpg) ;
     background-position: right top;
     background-size: cover;
     position: relative;
     padding: 8% 0;
     
 }
+
+
+.logo{
+    width: 60%;
+    height: 15%;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
 
 .jumbotron a:hover{
     color: grey;
@@ -47,7 +57,11 @@ h1 {
 
 .recommendations{
     text-align: right;
-    
+    border: 1px solid #ccc;
+    padding: 13px;
+    color: grey;
+    background: rgba(0,0,0,0.1);
+   
 }
 
 .recommendation_box > div > a {
@@ -55,6 +69,7 @@ h1 {
 }
 .song_list  {
     text-align: left;
+    margin-bottom: 13px;
 }
 
 .song_list > a {
