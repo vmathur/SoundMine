@@ -350,6 +350,8 @@ $('.play').on('click', function(evt){
 	//TODO: change hardcoded "active" to actual current mood
 	// save song to current mood's list
     changeScore('play');
+
+
     
 });
 
@@ -440,6 +442,11 @@ function playSong(){
     $('.songname').text(capitalize(song) + ' - ' + songs[song].artist);
 	$(".playButton").hide();
 	$(".pause").show();
+
+	//Reset like button colour
+	if ($('.like').hasClass('green')) {
+		$('.like').toggleClass("green");
+	}
 
 }
 
