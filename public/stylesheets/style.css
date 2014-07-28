@@ -52,6 +52,7 @@ h1 {
 
 .container {
 	text-align: center;
+    outline: 0;
 }
 
 
@@ -131,6 +132,10 @@ h1 {
 
 .songname{
     color: #ffffff;
+}
+
+.back:focus, .fwd:focus, .playButton:focus, .pause:focus {
+    outline: 0;
 }
 
 
