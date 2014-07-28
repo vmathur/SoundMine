@@ -114,7 +114,7 @@ songs['fix_you'] = {
 	focused: 1,
 	energetic: 1,
 	lastPlayed: "",
-	cover:'http://sites.psu.edu/waschenko/wp-content/uploads/sites/432/2012/12/art_fixyou.jpg'
+	cover:'sites.psu.edu/waschenko/wp-content/uploads/sites/432/2012/12/art_fixyou.jpg'
 }
 songs['truly_madly_deeply'] = {
 	artist: 'Savage Garden',
@@ -139,7 +139,7 @@ songs['merry_go_round_of_life'] = {
 	focused: 1,
 	energetic: 1,
 	lastPlayed: "",
-	cover:"http://upload.wikimedia.org/wikipedia/en/c/c9/Merry_go_'round.jpg"
+	cover:"http://wickedvibesbringthejoy.files.wordpress.com/2014/04/2.jpg"
 }
 songs['faxing_berlin'] = {
 	artist: 'Deadmau5',
@@ -562,7 +562,7 @@ function createSuggestions(moodSnapshot){
 function displaySuggestions(suggestionsArray) {
 	var recommendationList = $('.recommendation_box'), newDivs = [];
 
-	for (i = 0; i < suggestionsArray.length; i++ ) {
+	for (i = 0; (i < suggestionsArray.length) && (i < 4); i++ ) {
 		title =  suggestionsArray[i];
 		recoDiv = '<div><img class="album_cover" src="' + songs[title].cover + '"></img><a class="play title" href="" title=' + title + '>' + capitalize(title) + '<br><i>' +  songs[title].artist + '</i></a></div>';
 		// suggestionEl = document.createElement('a');
